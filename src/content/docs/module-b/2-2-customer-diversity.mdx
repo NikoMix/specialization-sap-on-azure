@@ -1,0 +1,70 @@
+---
+title: "B.2.2 – Customer Diversity"
+description: Evidence requirements for control B.2.2 — ≥ 3 unique customers contributing ACR via DPOR/PAL/CSP.
+sidebar:
+  label: "2.2 Customer Diversity"
+  order: 3
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## What the Auditor Checks
+
+The auditor verifies that **at least three unique customers** are contributing to Azure Consumed Revenue across SAP-on-Azure-eligible services in the trailing 3 months, via **DPOR, PAL, or CSP** attribution.
+
+**Typical questions:**
+
+- Show me a list of the customers attributed to your ACR.
+- For each, what's the attribution type (DPOR / PAL / CSP)?
+- Are these the same customers as your case studies in B.1.1?
+
+---
+
+## Required Evidence Checklist
+
+- [ ] **Unique customer list** (≥ 3) with anonymised customer ID and country — PDF / Excel
+- [ ] **PAL / DPOR / CSP attribution evidence** per customer — PDF / screenshot
+- [ ] **Cross-reference table** linking each customer to a B.1.1 case study (where applicable) — PDF / Excel
+
+<Aside type="tip">
+  Government subscriptions are **not** eligible for ACR via PAL. If a customer is sovereign, confirm
+  attribution path with your PDM before counting them toward the 3.
+</Aside>
+
+---
+
+## Evidence Guidance
+
+### Customer List
+
+Use the Partner Center **By Customer** view of the ACR export. Replace customer names with "Customer A / B / C…" if confidentiality requires; keep the customer tenant ID for the auditor's verification.
+
+### PAL Setup (fast fix for under-attribution)
+
+PAL can be configured same-day per customer subscription — have the customer admin add your team's UPN under **Subscriptions → Access control (IAM)**. Document each PAL with a screenshot.
+
+### Cross-Reference
+
+Map each of the 3 customers to:
+
+- The case study in B.1.1 (if delivered)
+- The skilling holder (B.3.1) who led the engagement
+- The audit-readiness evidence (B.4.1) folder
+
+---
+
+## Evidence Status
+
+| Item | Owner | Status | Last Updated | Notes |
+|---|---|---|---|---|
+| Customer list export | | ⬜ Not started | | |
+| Per-customer attribution proof | | ⬜ Not started | | |
+| B.1.1 cross-reference | | ⬜ Not started | | |
+
+---
+
+## Common Gaps
+
+- **Only 2 unique customers:** establish PAL on one more customer subscription — same-day possible.
+- **Customers attributed to non-SAP services:** confirm spend is on SAP-eligible services per [B.2.1](../2-1-acr-performance/).
+- **Government subscription counted toward 3:** swap for a commercial-tenant customer.

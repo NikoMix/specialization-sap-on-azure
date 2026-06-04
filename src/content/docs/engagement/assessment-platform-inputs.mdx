@@ -1,0 +1,73 @@
+---
+title: "Assessment Platform Inputs"
+description: How to feed Azure Migrate, ACSS readiness, EWA, and SAP Quick Sizer into the engagement.
+sidebar:
+  label: "Assessment Platform Inputs"
+  order: 5
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+<Aside type="tip" title="Download the workfile">
+  Excel workbook with a consolidated view of inputs from Azure Migrate, ACSS readiness, EWA, and
+  Quick Sizer — used to drive the HLD sizing tables.
+
+  [📄 Download assessment-platform-inputs.xlsx](/templates/engagement/assessment-platform-inputs.xlsx)
+</Aside>
+
+## When to use this
+
+In parallel with discovery and again before locking the HLD. These inputs are the *evidence* behind your sizing and migration plan.
+
+## Azure Migrate
+
+For the infrastructure footprint outside the SAP systems themselves (file servers, gateways, web dispatchers, middleware), use [Azure Migrate](https://learn.microsoft.com/en-us/azure/migrate/migrate-services-overview):
+
+- Discovery + dependency mapping
+- Server right-sizing recommendation
+- Total cost of ownership comparison
+
+## Azure Center for SAP solutions (ACSS) — readiness assessment
+
+For the SAP systems themselves, use [ACSS readiness assessment](https://learn.microsoft.com/en-us/azure/sap/center-sap-solutions/overview):
+
+- Run readiness against current on-prem landscape (where supported) or against a planned Azure target
+- Capture issues / warnings — they map directly to HLD / LLD decisions
+- Onboard the **target** Azure landscape into ACSS at go-live for ongoing visibility
+
+## SAP EarlyWatch Alert (EWA)
+
+Customer-supplied. Use the latest EWA to:
+
+- Validate Quick Sizer assumptions
+- Surface red flags (HANA growth, DB latency, work-process saturation)
+- Inform the HA / DR design and the hypercare exit criteria
+
+## SAP Quick Sizer
+
+Customer-supplied via [SAP Quick Sizer](https://support.sap.com/en/quick-sizer.html). Use the output to:
+
+- Cross-check VM SKU choices against the SAP-certified table for Azure
+- Validate ANF volume sizes (data / log / shared)
+- Drive the cost-model conversation
+
+## Consolidated input workbook
+
+The workbook has tabs:
+
+1. **Azure Migrate** — VM inventory and dependency edges
+2. **ACSS readiness** — findings and HLD impact
+3. **EWA summary** — top 5 findings per SAP system
+4. **Quick Sizer output** — memory, CPU, disk, IOPS per SAP system
+5. **Sizing decision** — final SKU + storage chosen, with the input that drove it
+
+## Output: HLD sizing tables
+
+The workbook becomes the appendix to the HLD's sizing chapter — every SKU choice is evidence-backed.
+
+## Reuse &amp; contribute back
+
+<Aside type="tip">
+  As new ACSS features ship (e.g. system updates, capacity insights, virtual-instance management),
+  update the workbook tabs and this page so the next engagement benefits.
+</Aside>

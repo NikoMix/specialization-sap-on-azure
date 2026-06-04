@@ -1,0 +1,48 @@
+name: Template improvement
+description: Improve a customer deliverable template (HLD, LLD, runbook, KT, hypercare) or an engagement playbook workfile
+title: "[template] <template name> – <short description>"
+labels: ["innersource", "template", "engagement-playbook"]
+body:
+  - type: dropdown
+    id: template
+    attributes:
+      label: Which template?
+      options:
+        - HLD
+        - LLD
+        - Runbook
+        - KT plan
+        - Hypercare plan
+        - Offering one-pager
+        - Qualification questionnaire
+        - Discovery workshop deck
+        - Discovery workshop workbook
+        - WAF assessment workbook
+        - Evidence tracker
+        - Other
+    validations:
+      required: true
+  - type: dropdown
+    id: change-type
+    attributes:
+      label: Change type
+      options:
+        - Add a section
+        - Remove a section
+        - Reword existing section
+        - Add SAP-specific guidance
+        - Fix a defect
+    validations:
+      required: true
+  - type: textarea
+    id: rationale
+    attributes:
+      label: Why this change?
+      description: Field-driven motivation. Anonymise customer detail.
+    validations:
+      required: true
+  - type: textarea
+    id: proposed
+    attributes:
+      label: Proposed change
+      description: Describe or paste the change.

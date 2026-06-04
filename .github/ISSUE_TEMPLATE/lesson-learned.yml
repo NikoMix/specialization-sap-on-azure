@@ -1,0 +1,43 @@
+name: Lesson learned
+description: Capture a field lesson so future consultants benefit
+title: "[lesson] <short title>"
+labels: ["innersource", "lesson-learned"]
+body:
+  - type: dropdown
+    id: phase
+    attributes:
+      label: Engagement phase
+      options:
+        - Pre-qualification / audit
+        - Qualification
+        - Discovery
+        - WAF / architecture
+        - Build / migration
+        - Cutover
+        - Hypercare
+        - Run / operations
+    validations:
+      required: true
+  - type: input
+    id: control
+    attributes:
+      label: Related audit control (optional)
+      placeholder: "B.1.1"
+  - type: textarea
+    id: context
+    attributes:
+      label: What happened?
+      description: Anonymise customer detail.
+    validations:
+      required: true
+  - type: textarea
+    id: lesson
+    attributes:
+      label: What would you do differently next time?
+    validations:
+      required: true
+  - type: textarea
+    id: action
+    attributes:
+      label: Suggested repo change
+      description: Which page or template should we update to bake this lesson in?

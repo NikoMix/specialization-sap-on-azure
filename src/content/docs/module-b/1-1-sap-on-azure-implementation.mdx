@@ -1,0 +1,123 @@
+---
+title: "B.1.1 – SAP on Azure Implementation Capability"
+description: Evidence requirements for control B.1.1 — proven technical capability to plan, migrate, and run SAP on Azure.
+sidebar:
+  label: "1.1 SAP on Azure Implementation"
+  order: 1
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+:::caution
+The exact wording and item count of Module B controls is published only inside Partner Center.
+This page reflects the publicly documented specialization requirements (Solutions Partner
+Infrastructure (Azure), USD 7,500 ACR, ≥3 customers, AZ-120 or learning-path) plus best-practice
+evidence drawn from the AI Apps specialization template. **Reconcile against the official audit
+checklist PDF before submission.**
+:::
+
+## What the Auditor Checks
+
+The auditor verifies that your organisation has **demonstrated technical capability** in planning, migrating, and running SAP workloads on Microsoft Azure — not just knowledge, but real customer delivery using the SAP-on-Azure service surface (M / Mv2 / Mv3 VMs, Azure NetApp Files, Availability Zones, ExpressRoute, ACSS, Azure Monitor for SAP, HSR, ASCS/ERS clustering).
+
+**Typical questions:**
+
+- Can you show SAP workload delivery on Azure with real customers (greenfield or migration)?
+- Which SAP-certified VM families, storage tiers, and management services has your team used in production?
+- Do you have reference architectures and signed customer deliverables (HLD / LLD / runbook)?
+
+---
+
+## Required Evidence Checklist
+
+- [ ] **At least 2 case studies** describing SAP workload delivery on Azure (S/4HANA, BW/4HANA, ECC, RISE landing zone) — PDF / PowerPoint
+- [ ] **Architecture diagrams** from delivered SAP-on-Azure solutions, showing HANA topology and HA — PDF / Visio / draw.io
+- [ ] **Capability statement** listing SAP workloads + Azure services your team has delivered — PDF / Word
+- [ ] **Sample anonymised deliverables** — HLD, LLD, runbook, KT plan — PDF / Word
+- [ ] **Azure service mapping** — specific SAP-on-Azure services used per customer — PDF / Excel
+
+<Aside type="tip">
+  Case studies should explicitly reference the **SAP product** (e.g. S/4HANA 2023 FPS01), the **SAP
+  database** (HANA 2.0 SPS07), and the **Azure services** (M192ms_v2 + ANF + HSR sync across AZ1/AZ2
+  + ExpressRoute Direct). Generic "SAP migration to cloud" descriptions are weak evidence.
+</Aside>
+
+---
+
+## Evidence Guidance
+
+### Case Study Structure
+
+Each case study should include:
+
+- **Customer:** "Customer A" (or full name with consent), industry, scale (users / TB).
+- **Challenge:** business problem and the trigger (end of HW lease, S/4HANA conversion, etc.).
+- **Solution:**
+  - SAP products and versions
+  - Database (HANA / Oracle / DB2 / ASE) + sizing
+  - Azure VM SKUs per tier (e.g. Mv3 for HANA, Edsv5 for app)
+  - Storage layout (ANF / Premium SSD v2 / Ultra Disk; volume sizing)
+  - HA / DR design (zonal HSR sync + cross-region async; ASCS/ERS; ASR)
+  - Network (ExpressRoute SKU, peering, NSG strategy)
+  - Operations (ACSS, Azure Monitor for SAP, Azure Backup for SAP HANA, Update Manager)
+- **Outcome:** measurable business and technical KPIs (e.g. cutover window &lt; 36 h, RTO &lt; 4 h).
+- **Delivery timeline:** weeks from kickoff to go-live, plus hypercare duration.
+- **Your team's role:** lead architect / Basis lead / programme management / co-delivery with partner X.
+
+### Architecture Diagrams
+
+Diagrams must clearly show:
+
+- SAP-certified VM SKUs per tier
+- Storage layout (data, log, shared)
+- Availability Zones and HSR / cluster topology
+- Network connectivity (ExpressRoute, peering, firewalls)
+- Identity (Entra ID, SAML/OIDC for Fiori SSO)
+- Management plane (ACSS, Azure Monitor for SAP, Azure Backup for SAP HANA)
+
+### Capability Statement
+
+A 1–2 page document listing:
+
+- SAP products you've delivered on Azure (S/4HANA, BW/4HANA, ECC, SCM, GRC, SuccessFactors integration, etc.)
+- Azure services your team is qualified to deliver for SAP
+- Number of completed engagements per product / pattern
+- Key team members and their AZ-120 / SAP-side certifications
+
+---
+
+## SAP-on-Azure Reference Service Set
+
+Include evidence covering services from this set:
+
+| Layer | Azure services to reference |
+|---|---|
+| Compute | M-series, Mv2-series, Mv3-series, Edsv5 / Dsv5, HANA Large Instances (legacy) |
+| Storage | Azure NetApp Files, Premium SSD v2, Ultra Disk, Azure Files Premium |
+| Resilience | Availability Zones, Azure Site Recovery, HSR (sync / async) |
+| Network | ExpressRoute, ExpressRoute Global Reach, Azure Firewall, Private Endpoints |
+| Management | ACSS, Azure Monitor for SAP solutions, Azure Backup for SAP HANA, Azure Update Manager |
+| Identity | Microsoft Entra ID (SAML for Fiori SSO, PIM for Basis) |
+| Automation | SAP on Azure deployment automation framework (Terraform + Ansible) |
+
+---
+
+## Evidence Status
+
+| Item | Owner | Status | Last Updated | Notes |
+|---|---|---|---|---|
+| Case study 1 | | ⬜ Not started | | |
+| Case study 2 | | ⬜ Not started | | |
+| Architecture diagram 1 | | ⬜ Not started | | |
+| Architecture diagram 2 | | ⬜ Not started | | |
+| Capability statement | | ⬜ Not started | | |
+| Sample deliverables (anonymised) | | ⬜ Not started | | |
+
+---
+
+## Common Gaps
+
+- **Case studies are generic "SAP on cloud":** rewrite to call out the exact SAP product version + Azure VM SKU + HSR design.
+- **All case studies are S/4HANA greenfield:** add a brownfield migration or a RISE landing zone to show breadth.
+- **Architecture diagrams are high-level only:** add a detailed view with VM SKUs, ANF volumes, and HSR topology.
+- **No HA / DR design visible:** add the zonal HSR design and the RTO/RPO commitment.

@@ -1,0 +1,74 @@
+---
+title: "Reference Architectures"
+description: Curated SAP on Azure reference architectures for the engagement playbook.
+sidebar:
+  label: "Reference Architectures"
+  order: 6
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## When to use this
+
+After discovery. Pick the architecture closest to the target shape; deviate intentionally and document the deviation in the HLD.
+
+## Curated set
+
+| # | Architecture | When to use | Key Azure services |
+|---|---|---|---|
+| 1 | **S/4HANA single-instance HA (zonal)** | Most common S/4HANA production target | M-series / Mv3 + ANF + AZs + HSR sync + ASCS/ERS cluster |
+| 2 | **Scale-out HANA** | BW/4HANA workloads exceeding single-VM memory | Mv2/Mv3 scale-out + ANF + ExpressRoute |
+| 3 | **Multi-region DR** | Regulated industries, RTO &lt; 4 h cross-region | HSR async to secondary region + ASR for app tier |
+| 4 | **BW/4HANA on Azure** | Analytics / planning workloads | Scale-out HANA + Power BI / Fabric integration |
+| 5 | **RISE with SAP — Azure landing zone interop** | Customer chose RISE; partner owns Azure side | Hub-spoke landing zone + peering to RISE tenant + Entra ID SSO + monitoring hand-off |
+| 6 | **SAP on Azure deployment automation framework** | Default IaC starting point for every engagement | Terraform + Ansible producing network + compute + storage + OS |
+
+## Reference architecture 1 — S/4HANA single-instance HA (zonal)
+
+- **Compute:** M-series or Mv3 HANA-certified VMs as primary + secondary across two Availability Zones.
+- **Storage:** Azure NetApp Files for `/hana/data`, `/hana/log`, `/hana/shared`. Sized from EWA + Quick Sizer.
+- **HA:** HANA System Replication (HSR) sync mode. Pacemaker + SBD on both nodes. ASCS / ERS cluster in a separate VM pair across AZs with Azure Load Balancer + floating IP.
+- **Network:** Hub-spoke topology. ExpressRoute (dual-circuit recommended) for on-prem. Accelerated networking + proximity placement group for HANA + app tier.
+- **Identity:** Entra ID for Fiori SSO (SAML). PIM for Basis admin elevation.
+- **Operations:** ACSS onboarded. Azure Monitor for SAP solutions. Azure Backup for SAP HANA. Azure Update Manager for OS + SAP kernel.
+
+## Reference architecture 2 — Scale-out HANA (BW/4HANA)
+
+- **Compute:** Mv2 or Mv3 scale-out worker nodes + standby.
+- **Storage:** Azure NetApp Files with HANA scale-out volumes.
+- **Network:** ExpressRoute + low-latency intra-region routing.
+- **Operations:** identical to architecture 1.
+
+## Reference architecture 3 — Multi-region DR
+
+- **Primary region:** as architecture 1.
+- **Secondary region:** HANA secondary in async mode, app tier protected by Azure Site Recovery.
+- **Network:** ExpressRoute Global Reach between primary and secondary regions.
+- **Drills:** documented cadence (typically twice yearly), evidence captured in the runbook.
+
+## Reference architecture 5 — RISE landing zone
+
+- **Scope partner-owned:** Azure landing zone, network, identity integration, monitoring hand-off, RACI vs SAP ECS.
+- **Scope SAP-owned:** the SAP application + database layer.
+- **Key boundaries:** peering between partner landing zone and SAP ECS tenant; SAML federation from customer IdP into SAP via Entra ID; log forwarding from SAP-managed components into the customer's Azure Monitor / Sentinel.
+
+## External references
+
+- [Microsoft Azure Architecture Center — SAP](https://learn.microsoft.com/en-us/azure/architecture/reference-architectures/sap/)
+- [SAP on Azure deployment automation framework](https://learn.microsoft.com/en-us/azure/sap/automation/get-started)
+- [Azure Center for SAP solutions](https://learn.microsoft.com/en-us/azure/sap/center-sap-solutions/overview)
+- [Azure Monitor for SAP solutions](https://learn.microsoft.com/en-us/azure/sap/monitor/about-azure-monitor-sap-solutions)
+
+<Aside type="tip">
+  Always start the LLD from the **SAP on Azure deployment automation framework**. It encodes
+  Microsoft + SAP joint best practice for naming, networking, OS prep, and HANA install — your
+  bespoke work goes on top.
+</Aside>
+
+## Reuse &amp; contribute back
+
+<Aside type="tip">
+  Add a new architecture pattern by creating a new section above and (where possible) a matching
+  draw.io / Visio source under `public/templates/engagement/architectures/`. Open a PR with the
+  `reference-architecture` label.
+</Aside>

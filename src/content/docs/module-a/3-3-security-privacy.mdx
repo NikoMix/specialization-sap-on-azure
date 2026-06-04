@@ -1,0 +1,75 @@
+---
+title: "A.3.3 – Security & Privacy"
+description: Evidence requirements for control A.3.3 — information security and data protection posture.
+sidebar:
+  label: "3.3 Security & Privacy"
+  order: 7
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## What the Auditor Checks
+
+The auditor verifies that you have a **documented, actively maintained** information security and data protection posture. SAP customers are particularly sensitive to security — GxP, financial data, and PII all routinely live in SAP systems.
+
+**Typical questions:**
+
+- Is your InfoSec policy aligned to ISO 27001, SOC 2, or NIST?
+- How do you handle GDPR / regional data protection?
+- What's your breach response procedure?
+- How is staff trained?
+
+---
+
+## Required Evidence Checklist
+
+- [ ] **Information Security policy** (ISO 27001 / SOC 2 / NIST mapped) — PDF / Word
+- [ ] **Data protection / GDPR statement** — PDF / Word
+- [ ] **Breach response procedure** — PDF / Word
+- [ ] **Staff security training records** (most recent 12 months) — PDF / Excel
+- [ ] **ISO 27001 certificate / SOC 2 report** (if held — strongest evidence) — PDF
+
+<Aside type="tip">
+  An active ISO 27001 certificate fully satisfies this control. Attach the certificate plus a
+  one-page scope statement; the auditor will not require deeper evidence in most cases.
+</Aside>
+
+---
+
+## Evidence Guidance
+
+### InfoSec Policy
+
+The policy must reference the underlying framework, define ownership, set review cadence, and be signed/dated by the policy owner.
+
+### Data Protection
+
+If you operate in the EU/EEA/UK, attach your GDPR statement, your DPA template, and the appointed DPO contact. For SAP customers specifically, document how you handle customer data during transports, refreshes, and copies for non-production environments.
+
+### Breach Response
+
+Cover detection, containment, customer notification SLAs, regulator notification SLAs (e.g. 72-hour GDPR), post-incident review.
+
+### Staff Training
+
+Provide training matrix per role + completion records for the last 12 months. Include SAP-specific items (Basis admins, ABAP developers handling personal data).
+
+---
+
+## Evidence Status
+
+| Item | Owner | Status | Last Updated | Notes |
+|---|---|---|---|---|
+| InfoSec policy | | ⬜ Not started | | |
+| GDPR statement | | ⬜ Not started | | |
+| Breach response procedure | | ⬜ Not started | | |
+| Training records | | ⬜ Not started | | |
+| ISO 27001 / SOC 2 evidence | | ⬜ Not started | | |
+
+---
+
+## Common Gaps
+
+- **Policy isn't mapped to a framework:** add a one-page mapping table to ISO 27001 controls.
+- **No staff training records:** attach the LMS export for the last 12 months.
+- **GDPR statement missing for EU work:** attach the template and DPO contact.

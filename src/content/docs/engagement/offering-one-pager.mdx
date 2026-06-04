@@ -1,0 +1,59 @@
+---
+title: "Offering One-Pager"
+description: One-page customer-facing summary of the SAP on Microsoft Azure offering — used for first conversations with prospects.
+sidebar:
+  label: "Offering One-Pager"
+  order: 1
+---
+
+import { Aside, Steps } from '@astrojs/starlight/components';
+
+<Aside type="tip" title="Download the workfile">
+  Editable PowerPoint version of the one-pager — customise the customer name, logos, and pricing model placeholders.
+
+  [📄 Download offering-one-pager.pptx](/templates/engagement/offering-one-pager.pptx)
+</Aside>
+
+## When to use this
+
+First meeting with a prospect, or anywhere you need to leave a single artefact that explains *what we do and why on Azure*. Tailor the variant to the conversation.
+
+## Variants
+
+Three flavours of the same offering — pick one (or combine):
+
+| Variant | Customer signal | Headline outcome |
+|---|---|---|
+| **Greenfield S/4HANA on Azure** | New SAP investment, no existing ERP debt | Validated S/4HANA architecture on Azure, signed cutover and DR runbook, hypercare exit |
+| **Brownfield migration (ECC → Azure, ECC → S/4HANA on Azure)** | Existing ECC / R/3, end of HW lease, S/4HANA conversion forced | Like-for-like migration with optional database conversion, signed cutover and rollback plan |
+| **RISE with SAP — Azure landing zone** | Customer chose RISE; partner owns Azure-side | Production-ready Azure landing zone, peering, identity integration, monitoring hand-off, RACI with SAP ECS |
+
+## Inputs you need from the customer
+
+- Current SAP estate (products, versions, DB, sizing)
+- Target architecture preference (greenfield S/4HANA, brownfield, RISE)
+- RTO / RPO commitments per system
+- Regulatory and data-residency constraints
+- Go-live target date
+
+## Step-by-step
+
+<Steps>
+1. Open the PPTX template and replace placeholder text for company name and customer.
+2. Pick **one** variant section and remove the other two (or leave all three for an "options" pitch).
+3. Drop in the customer's logo + your team's headshots.
+4. Update the pricing model placeholder (T&amp;M / fixed-price per wave) with your commercial team.
+5. Export to PDF for distribution.
+</Steps>
+
+## Output: customer-ready deliverable
+
+A single 2-page PDF, your-branded, that the customer leaves the meeting with.
+
+## Reuse &amp; contribute back
+
+<Aside type="tip">
+  If you spot a missing variant (e.g. "S/4HANA selective data transition") or a sharper customer
+  headline, open a PR against `public/templates/engagement/offering-one-pager.pptx` and raise an
+  issue with the `template` + `engagement-playbook` labels.
+</Aside>

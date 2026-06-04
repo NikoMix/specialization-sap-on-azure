@@ -1,0 +1,70 @@
+---
+title: "Definition of Done"
+description: When is the SAP on Azure engagement actually finished?
+sidebar:
+  label: "Definition of Done"
+  order: 8
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+<Aside type="tip" title="Download the workfile">
+  Word version of the definition-of-done sign-off — the customer signs it at the hypercare exit
+  review.
+
+  [📄 Download definition-of-done.docx](/templates/engagement/definition-of-done.docx)
+</Aside>
+
+## When to use this
+
+At the hypercare exit review. The customer signs it; you archive it as evidence.
+
+## Definition of Done checklist
+
+### Audit evidence
+
+- [ ] All Module A controls have linked customer evidence (where applicable)
+- [ ] All Module B controls have linked customer evidence
+- [ ] Evidence index updated in the customer engagement folder
+
+### Architectural sign-off
+
+- [ ] SAP-certified architecture sign-off captured (VM SKUs match the SAP HANA table for the chosen region)
+- [ ] HLD v1.0+ signed by customer architecture board
+- [ ] LLD v1.0+ signed by customer Basis + infra leads
+
+### Resilience
+
+- [ ] DR drill executed at least once with the customer in attendance
+- [ ] DR drill outcome documented in the runbook with RTO/RPO measured against the committed values
+
+### Operations
+
+- [ ] ACSS onboarded for all production systems
+- [ ] Azure Monitor for SAP solutions deployed and alert routes confirmed
+- [ ] Azure Backup for SAP HANA configured and a restore drill completed
+- [ ] Azure Update Manager handling OS patching cadence
+
+### Hypercare
+
+- [ ] Hypercare exit memo signed by the customer
+- [ ] X consecutive clean EarlyWatch Alerts (customer-defined X, typically 4 weeks)
+- [ ] Zero open P1 defects at exit
+- [ ] KT plan signed off — customer's run team is operationally independent
+
+## Sign-off
+
+| Role | Name | Signature | Date |
+|---|---|---|---|
+| Customer engagement sponsor | | | |
+| Customer SAP Basis lead | | | |
+| Customer infra / Azure lead | | | |
+| Partner engagement lead | | | |
+| Partner SAP / Azure lead | | | |
+
+## Reuse &amp; contribute back
+
+<Aside type="tip">
+  As your offering evolves (e.g. you add an Azure-cost optimisation phase after hypercare), update
+  the checklist and the Word workfile in lockstep.
+</Aside>
