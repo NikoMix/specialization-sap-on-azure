@@ -1,0 +1,119 @@
+---
+title: "Microsoft Assessments & Architecture Reviews"
+description: How to use Microsoft Assessments — including the Azure Well-Architected Review and Azure Architecture Review — in a SAP on Azure engagement.
+sidebar:
+  label: "Assessments"
+  order: 3
+---
+
+import { Aside, Steps, Card, CardGrid } from '@astrojs/starlight/components';
+
+<Aside type="tip" title="Mandatory engagement activity">
+  Running an Azure Well-Architected Review for the customer's SAP workload is a **required activity**
+  in every Module B engagement. Capture the assessment report and include it in your evidence pack
+  under **B.4.1 Audit Readiness**.
+</Aside>
+
+## Why assessments matter
+
+Microsoft assessments serve two purposes in an SAP on Azure engagement:
+
+1. **Customer value** — they surface design risks and cost optimisation opportunities early, when change is cheap. A Well-Architected Review finding that HANA is not on a certified VM SKU is far cheaper to fix in design than post-cutover.
+2. **Audit evidence** — a completed, documented assessment demonstrates to the auditor that you follow a systematic, repeatable design review process (controls B.1.1 and B.4.2).
+
+---
+
+## Available Microsoft Assessments
+
+### Azure Well-Architected Review
+
+The primary assessment for SAP on Azure engagements. Covers all five pillars — Reliability, Security, Cost Optimisation, Operational Excellence, and Performance Efficiency — with SAP-specific questions for many controls.
+
+**Run it at:** [learn.microsoft.com/assessments/azure-architecture-review](https://learn.microsoft.com/en-us/assessments/azure-architecture-review/)
+
+| Pillar | SAP relevance | Recommended depth |
+| :--- | :--- | :--- |
+| Reliability | High-availability, DR, RPO/RTO commitments | Deep dive — run first |
+| Performance Efficiency | HANA sizing, ANF throughput, VM SKU | Deep dive — run second |
+| Operational Excellence | ACSS, Azure Monitor for SAP, runbook quality | Full review |
+| Security | Entra ID, Defender for Cloud, network segmentation | Full review |
+| Cost Optimisation | Reserved Instances, right-sizing, storage tiering | Standard review |
+
+### Azure Migrate Assessment
+
+Quantifies the on-premises SAP estate, suggests Azure VM SKU mappings, and produces a cost estimate. Run before or during discovery.
+
+**Start here:** [learn.microsoft.com/azure/migrate](https://learn.microsoft.com/en-us/azure/migrate/tutorial-assess-sap-ase)
+
+### SAP HANA Infrastructure Configuration Checker
+
+A tool from Microsoft and SAP that validates whether your Azure infrastructure configuration meets SAP HANA certification requirements.
+
+**Run:** as part of the Low-Level Design validation and again post-build before go-live.
+
+**Documentation:** [SAP HANA Infrastructure Configuration Checker](https://learn.microsoft.com/en-us/azure/sap/workloads/sap-hana-infrastructure-configuration-checker)
+
+### Cloud Adoption Framework Assessment (DORA)
+
+Evaluates your customer's cloud adoption readiness across strategy, plan, ready, adopt, govern, and manage. Useful for first-time Azure customers or customers undergoing a broader digital transformation alongside SAP.
+
+**Run it at:** [learn.microsoft.com/assessments](https://learn.microsoft.com/en-us/assessments/)
+
+---
+
+## Step-by-step: Running the Azure Well-Architected Review
+
+<Steps>
+
+1. **Schedule the session** — the Well-Architected Review takes 3–4 hours for a full SAP workload review. Invite: customer's Azure architect, SAP Basis lead, infrastructure lead, and security lead.
+
+2. **Open the assessment** — navigate to [learn.microsoft.com/assessments/azure-architecture-review](https://learn.microsoft.com/en-us/assessments/azure-architecture-review/) and select **SAP on Azure** as the workload category.
+
+3. **Work through each pillar** — answer every question with the customer present. Use the pillar weighting from the [WAF Assessment](./waf-assessment/) page to prioritise Reliability and Performance Efficiency.
+
+4. **Capture the report** — at the end of each pillar the tool generates a PDF report with scores, findings, and recommendations. Export to PDF and save as `B4.1_WAF_Review_[CustomerCode]_[YYYY-MM].pdf`.
+
+5. **Prioritise findings** — agree a remediation priority with the customer. Map each finding to the High-Level Design or Low-Level Design as a design decision or risk item.
+
+6. **Re-run at Low-Level Design stage** — re-run the assessment after the detailed design is complete to verify findings have been addressed. This provides the "before/after" evidence auditors look for.
+
+7. **Include in evidence pack** — both the initial and the re-run reports go into the evidence pack under B.4.1.
+
+</Steps>
+
+---
+
+## Integrating assessments into the engagement timeline
+
+| Engagement phase | Assessment activity | Output |
+| :--- | :--- | :--- |
+| Pre-engagement | Azure Migrate Assessment (estate sizing) | VM SKU mapping, cost estimate |
+| Discovery workshop (Day 1–2) | WAF Review initial run | Pillar scores + prioritised finding list |
+| High-Level Design review | WAF finding mapping | Design decisions log, risk register |
+| Low-Level Design complete | SAP HANA Infrastructure Configuration Checker | Infrastructure compliance report |
+| Pre-cutover | WAF re-run — Operational Excellence pillar | Runbook + monitoring readiness confirmation |
+| Hypercare exit | WAF re-run — full | Final scored report for evidence pack |
+
+---
+
+## Output artefacts for the audit evidence pack
+
+| Artefact | Naming convention | Control |
+| :--- | :--- | :--- |
+| Initial WAF Review PDF | `B4.1_WAF_Review_v1_[CustomerCode]_[Date].pdf` | B.4.1 |
+| Final WAF Review PDF | `B4.1_WAF_Review_v2_[CustomerCode]_[Date].pdf` | B.4.1 |
+| Azure Migrate Assessment export | `B1.1_MigrateAssessment_[CustomerCode]_[Date].xlsx` | B.1.1 |
+| Infrastructure Configuration Checker report | `B1.1_HANAInfraCheck_[CustomerCode]_[Date].pdf` | B.1.1 |
+
+---
+
+## Resources
+
+| Resource | URL |
+| :--- | :--- |
+| Azure Well-Architected Review | [learn.microsoft.com/assessments/azure-architecture-review](https://learn.microsoft.com/en-us/assessments/azure-architecture-review/) |
+| All Microsoft Assessments | [learn.microsoft.com/assessments](https://learn.microsoft.com/en-us/assessments/) |
+| Azure Migrate — SAP assessment | [learn.microsoft.com/azure/migrate/tutorial-assess-sap-ase](https://learn.microsoft.com/en-us/azure/migrate/tutorial-assess-sap-ase) |
+| Well-Architected Framework — SAP on Azure | [learn.microsoft.com/azure/well-architected/sap](https://learn.microsoft.com/en-us/azure/well-architected/sap/overview) |
+| SAP HANA Infrastructure Configuration Checker | [learn.microsoft.com — HANA checker](https://learn.microsoft.com/en-us/azure/sap/workloads/sap-hana-infrastructure-configuration-checker) |
+| Azure Architecture Center — SAP | [learn.microsoft.com/azure/architecture/sap](https://learn.microsoft.com/en-us/azure/architecture/reference-architectures/sap/) |

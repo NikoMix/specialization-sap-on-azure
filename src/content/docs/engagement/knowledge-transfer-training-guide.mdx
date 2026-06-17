@@ -1,0 +1,198 @@
+---
+title: "Knowledge Transfer Training Guide"
+description: Role-based training curriculum for SAP on Azure — Microsoft Learn paths, hands-on labs, and certification roadmap for customer operations teams.
+sidebar:
+  label: "KT Training Guide"
+  order: 8
+---
+
+import { Aside, Steps, Card, CardGrid } from '@astrojs/starlight/components';
+
+<Aside type="tip" title="How to use this guide">
+  Share this page with the customer's operations team at the start of the Knowledge Transfer phase
+  (typically mid-Phase 4, running in parallel with the infrastructure build). Each role has its own
+  learning path. The goal is that the customer team can operate the SAP on Azure landscape
+  independently at hypercare exit.
+</Aside>
+
+## Learning paths by role
+
+Knowledge Transfer covers three primary customer roles. Each has Microsoft Learn paths, hands-on
+lab recommendations, and a target certification (optional but recommended).
+
+---
+
+### Role 1 – SAP Basis Administrator (Azure-aware)
+
+The Basis team needs to understand how Azure impacts daily SAP operations — from HANA System
+Replication management to OS patching on Azure VMs.
+
+#### Core Microsoft Learn modules
+
+| Module | Duration | URL |
+| :--- | :--- | :--- |
+| Introduction to SAP on Azure | 30 min | [learn.microsoft.com](https://learn.microsoft.com/en-us/training/modules/intro-to-sap-azure/) |
+| Run SAP HANA on Azure VMs | 45 min | [learn.microsoft.com](https://learn.microsoft.com/en-us/training/modules/run-sap-hana-azure/) |
+| SAP on Azure deployment automation framework | 60 min | [learn.microsoft.com](https://learn.microsoft.com/en-us/training/modules/sap-azure-deployment-automation-framework/) |
+| Configure high availability for SAP HANA | 45 min | [learn.microsoft.com](https://learn.microsoft.com/en-us/training/modules/configure-sap-hana-high-availability-azure/) |
+| Explore Azure Center for SAP solutions | 30 min | [learn.microsoft.com](https://learn.microsoft.com/en-us/training/modules/explore-azure-center-sap-solutions/) |
+
+#### Full learning path
+
+Complete the **Run SAP on the Microsoft Cloud** learning path which covers all the above in sequence:
+
+[learn.microsoft.com/training/paths/run-sap-on-the-microsoft-cloud](https://learn.microsoft.com/en-us/training/paths/run-sap-on-the-microsoft-cloud/)
+
+#### Hands-on topics (delivered by the partner)
+
+- HANA System Replication: primary/secondary status, takeover procedure, re-registration
+- Pacemaker cluster: `crm_mon`, resource move, maintenance mode, STONITH test
+- ASCS/ERS cluster: floating IP behaviour, failover walkthrough
+- Azure NetApp Files: volume monitoring, capacity alerts, snapshot schedule
+- Azure Backup for SAP HANA: policy review, manual backup, restore walkthrough
+- Azure Update Manager: scheduled patching, compliance reporting, exclusion lists
+- Azure Center for SAP solutions: dashboard navigation, workload health, quality checks
+
+#### Target certification
+
+**Microsoft Certified: Azure for SAP Workloads Specialty (AZ-120)**
+
+Study guide: [learn.microsoft.com/credentials/certifications/azure-for-sap-workloads-specialty](https://learn.microsoft.com/en-us/credentials/certifications/azure-for-sap-workloads-specialty/)
+
+---
+
+### Role 2 – Azure Infrastructure / Platform Engineer
+
+The Azure team needs to understand the SAP-specific infrastructure decisions and how to operate
+them day-to-day using the Azure portal, CLI, and PowerShell.
+
+#### Core Microsoft Learn modules
+
+| Module | Duration | URL |
+| :--- | :--- | :--- |
+| Azure landing zones for SAP | 45 min | [learn.microsoft.com](https://learn.microsoft.com/en-us/training/modules/enterprise-scale-introduction/) |
+| Azure NetApp Files for SAP HANA | 30 min | [learn.microsoft.com](https://learn.microsoft.com/en-us/training/modules/azure-netapp-files/) |
+| Azure Monitor fundamentals | 45 min | [learn.microsoft.com](https://learn.microsoft.com/en-us/training/modules/intro-to-azure-monitor/) |
+| Configure Azure Monitor for SAP solutions | 30 min | [learn.microsoft.com](https://learn.microsoft.com/en-us/training/modules/configure-azure-monitor-sap-solutions/) |
+| Azure Backup for SAP HANA | 30 min | [learn.microsoft.com](https://learn.microsoft.com/en-us/azure/backup/sap-hana-database-about) |
+| Protect infrastructure with Microsoft Defender for Cloud | 45 min | [learn.microsoft.com](https://learn.microsoft.com/en-us/training/modules/protect-infrastructure-with-microsoft-defender-cloud/) |
+
+#### Hands-on topics (delivered by the partner)
+
+- ExpressRoute: BGP route verification, circuit health, failover to backup circuit
+- Azure Firewall: rule review, diagnostic logs, FQDN rule management
+- Private DNS: zone management, A-record lifecycle for SAP systems
+- Azure Monitor for SAP solutions: provider configuration, alert rules, workbook dashboards
+- Azure Backup: policy management, vault reporting, cross-region restore
+- Azure Update Manager: maintenance windows, compliance report, manual patch trigger
+- Microsoft Defender for Cloud: SAP recommendations, security score, Defender for Servers
+
+#### Target certification
+
+**Microsoft Certified: Azure Administrator Associate (AZ-104)** or  
+**Microsoft Certified: Azure Solutions Architect Expert (AZ-305)**
+
+---
+
+### Role 3 – SAP Operations / Monitoring Team
+
+The monitoring team needs to understand the observability stack — where to find alerts, how to
+interpret them, and which runbook to trigger.
+
+#### Core Microsoft Learn modules
+
+| Module | Duration | URL |
+| :--- | :--- | :--- |
+| Azure Monitor for SAP solutions overview | 30 min | [learn.microsoft.com](https://learn.microsoft.com/en-us/azure/sap/monitor/about-azure-monitor-sap-solutions) |
+| SAP HANA alerts in Azure Monitor | 30 min | [learn.microsoft.com](https://learn.microsoft.com/en-us/azure/sap/monitor/provider-hana) |
+| Azure Center for SAP solutions quality checks | 20 min | [learn.microsoft.com](https://learn.microsoft.com/en-us/azure/sap/center-sap-solutions/get-quality-checks-insights) |
+| Azure alerts and action groups | 30 min | [learn.microsoft.com](https://learn.microsoft.com/en-us/training/modules/configure-azure-alerts/) |
+| Kusto Query Language basics | 45 min | [learn.microsoft.com](https://learn.microsoft.com/en-us/training/paths/sc-200-utilize-kql-for-azure-sentinel/) |
+
+#### Hands-on topics (delivered by the partner)
+
+- Azure Monitor for SAP solutions: dashboard overview, alert list, investigation flow
+- Azure Center for SAP solutions: quality checks, EarlyWatch Alert integration
+- Log Analytics: SAP log queries (HANA, NetWeaver, OS), saved queries
+- Alert response: priority classification, war-room activation, escalation chain
+- On-call rota: how to receive alerts, acknowledge, and route to correct team
+
+---
+
+## Knowledge Transfer delivery schedule
+
+Run Knowledge Transfer sessions in parallel with the infrastructure and migration build. Do not
+leave all Knowledge Transfer to the final week — customers need time to absorb and practise.
+
+| Week | Session | Audience | Duration |
+| :--- | :--- | :--- | :--- |
+| 8 | SAP on Azure architecture overview | All roles | 2 h |
+| 9 | Azure landing zone and networking | Azure infra team | 3 h |
+| 10 | Azure Center for SAP solutions walkthrough | Basis + monitoring | 2 h |
+| 11 | Azure Monitor for SAP solutions + alert configuration | Monitoring team | 3 h |
+| 12 | HANA System Replication operations | Basis team | 3 h |
+| 13 | Pacemaker cluster operations + ASCS/ERS | Basis team | 3 h |
+| 14 | Azure Backup for SAP HANA — operations and restore | Basis + infra | 2 h |
+| 15 | Azure Update Manager — patching cadence | Infra + Basis | 2 h |
+| 16 | Security operations: Defender for Cloud + Entra ID + PIM | All roles | 2 h |
+| 17 | Runbook walkthrough (start/stop, patching, backup verify) | All roles | 3 h |
+| 18 | Disaster recovery drill walkthrough | All roles | 4 h |
+| 19 | On-call rota and escalation procedure | All roles | 2 h |
+| 20 | Knowledge Transfer sign-off review | All roles | 1 h |
+
+Total: approximately 33 hours of structured Knowledge Transfer over 13 weeks.
+
+---
+
+## Sign-off matrix
+
+Each Knowledge Transfer session must be signed off by the attendees before hypercare exit. Use
+the table below as the sign-off tracker.
+
+| Module | Date | Trainer | Attendees | Customer sign-off |
+| :--- | :--- | :--- | :--- | :--- |
+| SAP on Azure architecture overview | | | | ⬜ |
+| Azure landing zone and networking | | | | ⬜ |
+| Azure Center for SAP solutions | | | | ⬜ |
+| Azure Monitor for SAP solutions | | | | ⬜ |
+| HANA System Replication operations | | | | ⬜ |
+| Pacemaker + ASCS/ERS operations | | | | ⬜ |
+| Azure Backup operations | | | | ⬜ |
+| Azure Update Manager | | | | ⬜ |
+| Security operations | | | | ⬜ |
+| Runbook walkthrough | | | | ⬜ |
+| Disaster recovery drill | | | | ⬜ |
+| On-call and escalation | | | | ⬜ |
+
+---
+
+## Resources for self-study
+
+Share these links with the customer team for ongoing self-development after hypercare exit.
+
+### Official documentation
+
+| Resource | URL |
+| :--- | :--- |
+| SAP on Azure workloads documentation hub | [learn.microsoft.com/azure/sap/workloads](https://learn.microsoft.com/en-us/azure/sap/workloads/get-started) |
+| HANA high availability on Azure | [learn.microsoft.com/azure/sap/workloads — HA](https://learn.microsoft.com/en-us/azure/sap/workloads/sap-hana-high-availability) |
+| Azure Center for SAP solutions | [learn.microsoft.com/azure/sap/center-sap-solutions](https://learn.microsoft.com/en-us/azure/sap/center-sap-solutions/overview) |
+| Azure Monitor for SAP solutions | [learn.microsoft.com/azure/sap/monitor](https://learn.microsoft.com/en-us/azure/sap/monitor/about-azure-monitor-sap-solutions) |
+| Azure Backup for SAP HANA | [learn.microsoft.com/azure/backup — HANA](https://learn.microsoft.com/en-us/azure/backup/sap-hana-database-about) |
+| SAP HANA on Azure sizing | [learn.microsoft.com/azure/sap — HANA sizing](https://learn.microsoft.com/en-us/azure/sap/workloads/hana-available-skus) |
+| SAP deployment automation framework | [learn.microsoft.com/azure/sap/automation](https://learn.microsoft.com/en-us/azure/sap/automation/get-started) |
+
+### GitHub samples and scripts
+
+| Resource | URL |
+| :--- | :--- |
+| SAP deployment automation framework | [github.com/Azure/sap-automation](https://github.com/Azure/sap-automation) |
+| SAP on Azure scripts and utilities | [github.com/Azure/SAP-on-Azure-Scripts-and-Utilities](https://github.com/Azure/SAP-on-Azure-Scripts-and-Utilities) |
+| Azure Monitor for SAP solutions — workbooks | [github.com/Azure/Azure-Monitor-for-SAP-solutions-preview](https://github.com/Azure/Azure-Monitor-for-SAP-solutions-preview) |
+
+### Communities
+
+| Resource | URL |
+| :--- | :--- |
+| Microsoft Tech Community — SAP on Azure | [techcommunity.microsoft.com/sap](https://techcommunity.microsoft.com/t5/running-sap-applications-on-the/bg-p/SAPApplications) |
+| SAP Community — Microsoft Azure | [community.sap.com](https://community.sap.com/t5/technology-blogs-by-sap/running-sap-on-microsoft-azure/ba-p/13503625) |
