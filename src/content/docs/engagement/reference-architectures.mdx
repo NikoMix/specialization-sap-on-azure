@@ -1,4 +1,4 @@
----
+﻿---
 title: "Reference Architectures"
 description: Curated SAP on Azure reference architectures for the engagement playbook.
 sidebar:
@@ -15,7 +15,7 @@ After discovery. Pick the architecture closest to the target shape; deviate inte
 ## Curated set
 
 | # | Architecture | When to use | Key Azure services |
-|---|---|---|---|
+| :--- | :--- | :--- | :--- |
 | 1 | **S/4HANA single-instance HA (zonal)** | Most common S/4HANA production target | M-series / Mv3 + ANF + AZs + HSR sync + ASCS/ERS cluster |
 | 2 | **Scale-out HANA** | BW/4HANA workloads exceeding single-VM memory | Mv2/Mv3 scale-out + ANF + ExpressRoute |
 | 3 | **Multi-region DR** | Regulated industries, RTO &lt; 4 h cross-region | HSR async to secondary region + ASR for app tier |
