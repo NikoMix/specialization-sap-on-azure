@@ -24,7 +24,7 @@ The auditor verifies that your organisation has **demonstrated technical capabil
 
 - Can you show SAP workload delivery on Azure with real customers (greenfield or migration)?
 - Which SAP-certified VM families, storage tiers, and management services has your team used in production?
-- Do you have reference architectures and signed customer deliverables (HLD / LLD / runbook)?
+- Do you have reference architectures and signed customer deliverables (High-Level Design, Low-Level Design, runbook)?
 
 ---
 
@@ -33,7 +33,7 @@ The auditor verifies that your organisation has **demonstrated technical capabil
 - [ ] **At least 2 case studies** describing SAP workload delivery on Azure (S/4HANA, BW/4HANA, ECC, RISE landing zone) — PDF / PowerPoint
 - [ ] **Architecture diagrams** from delivered SAP-on-Azure solutions, showing HANA topology and HA — PDF / Visio / draw.io
 - [ ] **Capability statement** listing SAP workloads + Azure services your team has delivered — PDF / Word
-- [ ] **Sample anonymised deliverables** — HLD, LLD, runbook, KT plan — PDF / Word
+- [ ] **Sample anonymised deliverables** — High-Level Design, Low-Level Design, runbook, Knowledge Transfer plan — PDF / Word
 - [ ] **Azure service mapping** — specific SAP-on-Azure services used per customer — PDF / Excel
 
 <Aside type="tip">
@@ -121,3 +121,34 @@ Include evidence covering services from this set:
 - **All case studies are S/4HANA greenfield:** add a brownfield migration or a RISE landing zone to show breadth.
 - **Architecture diagrams are high-level only:** add a detailed view with VM SKUs, ANF volumes, and HSR topology.
 - **No HA / DR design visible:** add the zonal HSR design and the RTO/RPO commitment.
+
+---
+
+## Resources
+
+Use these Azure Architecture Center references when building and reviewing your customer architectures.
+
+| Resource | Link |
+| :--- | :--- |
+| Run SAP S/4HANA in Linux virtual machines on Azure | [learn.microsoft.com — S/4HANA](https://learn.microsoft.com/en-us/azure/architecture/reference-architectures/sap/sap-s4hana) |
+| Run SAP HANA for Linux virtual machines in scale-up systems | [learn.microsoft.com — HANA scale-up](https://learn.microsoft.com/en-us/azure/architecture/reference-architectures/sap/run-sap-hana-for-linux-virtual-machines) |
+| SAP NetWeaver on Azure (Windows) | [learn.microsoft.com — NetWeaver](https://learn.microsoft.com/en-us/azure/architecture/reference-architectures/sap/sap-netweaver) |
+| Run SAP BW/4HANA on Azure | [learn.microsoft.com — BW/4HANA](https://learn.microsoft.com/en-us/azure/architecture/reference-architectures/sap/run-sap-bw4hana-with-linux-virtual-machines) |
+| Azure Center for SAP solutions overview | [learn.microsoft.com — ACSS](https://learn.microsoft.com/en-us/azure/sap/center-sap-solutions/overview) |
+| Azure Monitor for SAP solutions | [learn.microsoft.com — AMS](https://learn.microsoft.com/en-us/azure/sap/monitor/about-azure-monitor-sap-solutions) |
+| SAP workloads on Azure — planning and deployment checklist | [learn.microsoft.com — checklist](https://learn.microsoft.com/en-us/azure/sap/workloads/deployment-checklist) |
+| HANA-certified Azure virtual machines | [learn.microsoft.com — HANA HW directory](https://learn.microsoft.com/en-us/azure/sap/workloads/hana-certified-iaas-configurations-solutions) |
+
+---
+
+## Samples
+
+Reusable code and automation that your team should be familiar with before engaging customers.
+
+| Sample | Description | Link |
+| :--- | :--- | :--- |
+| SAP on Azure deployment automation framework | End-to-end Terraform + Ansible framework to deploy the full SAP landscape (infrastructure + OS + HANA) | [github.com/Azure/sap-automation](https://github.com/Azure/sap-automation) |
+| SAP on Azure scripts and utilities | Collection of PowerShell and Bash scripts for HANA backup, ASR, HSR monitoring | [github.com/Azure/SAP-on-Azure-Scripts-and-Utilities](https://github.com/Azure/SAP-on-Azure-Scripts-and-Utilities) |
+| Azure Monitor for SAP solutions — alerts | Pre-built Azure Monitor alert rules for SAP HANA and NetWeaver | [github.com/Azure/Azure-Monitor-for-SAP-solutions-preview](https://github.com/Azure/Azure-Monitor-for-SAP-solutions-preview) |
+| Azure Quickstart Templates — SAP | ARM templates for SAP infrastructure (HANA, NetWeaver, ASCS/ERS) | [github.com/Azure/azure-quickstart-templates — SAP](https://github.com/Azure/azure-quickstart-templates/tree/master/application-workloads/sap) |
+| ACSS — Bicep modules | Infrastructure-as-code modules for Azure Center for SAP solutions onboarding | [github.com/Azure/azure-quickstart-templates — ACSS](https://github.com/Azure/azure-quickstart-templates/tree/master/quickstarts/microsoft.workloads) |

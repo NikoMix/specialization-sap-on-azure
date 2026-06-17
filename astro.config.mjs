@@ -57,8 +57,11 @@ export default defineConfig({
             { label: 'Qualification Questionnaire', link: '/engagement/qualification-questionnaire/' },
             { label: 'Discovery Workshop', link: '/engagement/discovery-workshop/' },
             { label: 'WAF Assessment', link: '/engagement/waf-assessment/' },
+            { label: 'Assessments', link: '/engagement/assessments/' },
             { label: 'Assessment Platform Inputs', link: '/engagement/assessment-platform-inputs/' },
             { label: 'Reference Architectures', link: '/engagement/reference-architectures/' },
+            { label: 'Knowledge Transfer Training Guide', link: '/engagement/knowledge-transfer-training-guide/' },
+            { label: 'Project Plan', link: '/engagement/project-plan/' },
             {
               label: 'Deliverable Templates',
               items: [{ autogenerate: { directory: 'engagement/deliverables' } }],

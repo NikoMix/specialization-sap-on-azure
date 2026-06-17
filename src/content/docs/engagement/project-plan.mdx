@@ -1,0 +1,412 @@
+---
+title: "End-to-End Project Plan"
+description: A complete, phase-by-phase project plan for delivering an SAP on Azure engagement — from pre-engagement through to audit evidence submission.
+sidebar:
+  label: "Project Plan"
+  order: 9
+---
+
+import { Aside, Steps, Badge } from '@astrojs/starlight/components';
+
+<Aside type="tip" title="How to use this guide">
+  This is a living reference plan. Fork it into your project management tool of choice (Azure
+  DevOps, Jira, MS Project) and adapt timelines to the customer's landscape. Durations shown are for
+  a typical **S/4HANA greenfield or classical migration** onto Azure with a new landing zone. Scale
+  up for multi-system landscapes; scale down for smaller ECC lifts.
+</Aside>
+
+## Project phases at a glance
+
+| Phase | Name | Typical duration | Key gate |
+| :--- | :--- | :--- | :--- |
+| 0 | Pre-Engagement | 4 weeks before start | Qualified opportunity; staffed team |
+| 1 | Discovery and Assessment | Weeks 1–3 | High-Level Design v0.1 signed off |
+| 2 | Design Finalisation | Weeks 3–6 | High-Level Design v1.0 + Low-Level Design signed off |
+| 3 | Landing Zone Build | Weeks 6–8 | ExpressRoute live; landing zone validated |
+| 4 | SAP Infrastructure Build | Weeks 8–14 | HANA + app tier provisioned; ACSS onboarded |
+| 5 | Migration / Functional Build | Weeks 14–22 | User acceptance testing passed |
+| 6 | Cutover and Go-Live | Week 22–23 | Go/No-Go gate cleared; production live |
+| 7 | Hypercare | Weeks 23–28 | Exit criteria met; operational handover signed |
+| 8 | Audit Evidence Collection | Ongoing (from Week 1) | Evidence package submitted |
+
+---
+
+## Phase 0 – Pre-Engagement
+
+**Duration:** 4 weeks before project start  
+**Owner:** Account Executive, Practice Lead
+
+### Activities
+
+- [ ] Confirm Solutions Partner for Infrastructure (Azure) status is active in Partner Center.
+- [ ] Confirm AZ-120 holder or Run-SAP-on-the-Microsoft-Cloud learning path completer is on the team.
+- [ ] Send [Offering One-Pager](./offering-one-pager/) to the customer's SAP and IT decision-makers.
+- [ ] Agree engagement scope: self-managed SAP on Azure, or RISE with SAP landing zone interop?
+- [ ] Send [Qualification Questionnaire](./qualification-questionnaire/) and allow 2 weeks for return.
+- [ ] Complete the [Azure Migrate Assessment](./assessments/) for the on-premises estate.
+- [ ] Staff the engagement team: SAP architect (Basis-capable), Azure landing zone architect, project manager.
+- [ ] Request customer access to EarlyWatch Alert, SAP Quick Sizer output, network diagrams.
+- [ ] Agree customer-side participants: Basis lead, infrastructure lead, security, networking, project sponsor.
+- [ ] Set up PAL on the customer's Azure subscriptions (same-day — do not skip).
+- [ ] Set up shared collaboration workspace (Teams, SharePoint or equivalent).
+
+### Outputs
+
+- Signed Statement of Work (SOW)
+- Staffed engagement team
+- Customer pre-read pack sent (reference architectures, Azure landing zone overview)
+- Azure Migrate assessment report
+
+---
+
+## Phase 1 – Discovery and Assessment
+
+**Duration:** Weeks 1–3  
+**Owner:** SAP Architect, Azure Architect
+
+### Week 1: Discovery Workshop (3 days)
+
+See the full [Discovery Workshop](./discovery-workshop/) playbook. Run on-site where possible.
+
+- **Day 1 — SAP estate and landscape:** Walk through the SAP system inventory from the qualification questionnaire; review EarlyWatch Alert; map pain points (hardware lease-end, performance, cost, S/4HANA conversion); agree stakeholder map.
+- **Day 2 — Target architecture + network + identity:** Select reference architecture; design Azure landing zone (subscriptions, management groups, network topology); design ExpressRoute (single or dual circuit, Global Reach for disaster recovery); agree identity approach (Microsoft Entra ID, Fiori Single Sign-On, Privileged Identity Management); agree naming and tagging standards.
+- **Day 3 — Migration approach + cutover + operations:** Agree migration strategy (lift-and-shift, classical migration, Database Migration Option, Blue-Green); outline cutover plan and acceptable downtime; design high availability topology (zonal HANA System Replication + Pacemaker + SBD, ASCS/ERS); design disaster recovery (HANA System Replication async cross-region, Azure Site Recovery for app tier); agree operations model.
+
+### Week 2: Azure Well-Architected Review
+
+Run the [Azure Well-Architected Review](./assessments/) with the customer's architecture board.
+
+- Work through Reliability and Performance Efficiency pillars in depth.
+- Run Operational Excellence, Security, and Cost Optimisation.
+- Export pillar reports and capture finding list.
+- Agree remediation priorities.
+
+### Week 3: High-Level Design v0.1
+
+Produce the initial High-Level Design using the [High-Level Design template](./deliverables/hld-template/).
+
+- Seed from the Discovery Workshop decisions log.
+- Map WAF findings to design decisions or risk register items.
+- Circulate for internal peer review before customer share.
+
+### Gate: High-Level Design v0.1 signed off by customer architecture board
+
+### Outputs
+
+- Discovery workshop workbook (decisions log, RTO/RPO, migration approach)
+- Azure Well-Architected Review — initial report (PDF)
+- High-Level Design v0.1
+
+---
+
+## Phase 2 – Design Finalisation
+
+**Duration:** Weeks 3–6  
+**Owner:** SAP Architect, Azure Architect, Security Architect
+
+### Activities
+
+- [ ] Conduct High-Level Design v1.0 walkthrough with customer architecture board.
+- [ ] Produce Low-Level Design using the [Low-Level Design template](./deliverables/lld-template/):
+  - VM SKUs per tier (certified HANA SKUs for database, Edsv5/Dsv5 for application)
+  - Azure NetApp Files volume layout (data, log, shared, backup)
+  - HANA System Replication (sync) config — primary/secondary across Availability Zones
+  - Pacemaker + SBD configuration for HANA and ASCS/ERS
+  - Azure Load Balancer config for floating IPs
+  - Network Security Groups, Application Security Groups, private DNS
+  - Azure Disk Encryption / customer-managed keys
+  - Secret management (Azure Key Vault)
+- [ ] Confirm SAP deployment automation framework scope (Terraform + Ansible parameter files).
+- [ ] Review final cost model with customer (Reserved Instances, right-sizing plan, storage tiering).
+- [ ] Submit High-Level Design and Low-Level Design to customer for sign-off.
+- [ ] Run SAP HANA Infrastructure Configuration Checker on the design parameters.
+- [ ] Produce Operations Design: alert definitions, runbook structure, monitoring dashboards.
+- [ ] Agree Knowledge Transfer plan with customer operations team.
+
+### Gate: High-Level Design v1.0 + Low-Level Design signed by customer architecture board
+
+### Outputs
+
+- High-Level Design v1.0 (customer-signed)
+- Low-Level Design v1.0 (customer-signed)
+- SAP deployment automation framework parameter files (draft)
+- Operations design document
+- Knowledge Transfer plan (draft)
+
+---
+
+## Phase 3 – Landing Zone Build
+
+**Duration:** Weeks 6–8  
+**Owner:** Azure Architect, Network Engineer
+
+### Activities
+
+- [ ] Deploy Azure landing zone using the SAP deployment automation framework deployer VM.
+- [ ] Provision SAP workload subscriptions with correct tagging and policy assignments.
+- [ ] Build hub-spoke network topology:
+  - Hub VNet (firewall, ExpressRoute gateway, DNS)
+  - SAP workload spoke VNets (production, non-production)
+  - Peering between hub and spokes
+- [ ] Provision and test ExpressRoute circuit(s) — verify BGP routes and bandwidth.
+- [ ] Configure Azure DNS (private DNS zones for SAP systems, ANF mounts, Key Vault).
+- [ ] Deploy Azure Firewall with SAP-specific FQDN and network rules.
+- [ ] Configure Microsoft Entra ID application registrations for Fiori Single Sign-On.
+- [ ] Enable Privileged Identity Management for Basis admin roles.
+- [ ] Onboard Azure Policy for governance (SAP-specific policy set: require Accelerated Networking, ANF volume diagnostics, backup policy).
+- [ ] Validate landing zone against Well-Architected Framework findings from Phase 1.
+
+### Gate: ExpressRoute live and validated; landing zone peer-reviewed by Azure Architect
+
+### Outputs
+
+- Landing zone deployment (Terraform state)
+- Network connectivity test results
+- Landing zone validation report
+
+---
+
+## Phase 4 – SAP Infrastructure Build
+
+**Duration:** Weeks 8–14  
+**Owner:** SAP Architect, Azure Architect
+
+### Activities
+
+- [ ] Execute SAP deployment automation framework for infrastructure layer (network, compute, storage, OS):
+  - HANA primary and secondary VMs (M-series or Mv3, Accelerated Networking, Proximity Placement Group)
+  - Azure NetApp Files volumes: `/hana/data`, `/hana/log`, `/hana/shared`, `/hana/backup`
+  - ASCS/ERS VM pair (Edsv5 or Dsv5)
+  - Application server VMs
+- [ ] OS configuration per SAP note requirements (RHEL/SLES for SAP HA, kernel parameters, swap, LVM).
+- [ ] Install SAP HANA on primary node; validate against HANA Hardware Directory.
+- [ ] Configure HANA System Replication (sync mode across Availability Zones):
+  - `hdbnsutil -sr_enable`; configure secondary; validate sync status
+- [ ] Install Pacemaker cluster + SBD on HANA pair; configure STONITH.
+- [ ] Install Pacemaker cluster for ASCS/ERS; configure Azure Load Balancer floating IPs.
+- [ ] Install SAP application servers; connect to HANA.
+- [ ] Configure Azure Center for SAP solutions — onboard the landscape.
+- [ ] Deploy Azure Monitor for SAP solutions — configure providers (HANA, NetWeaver, OS).
+- [ ] Configure Azure Backup for SAP HANA — policy, vault, initial backup.
+- [ ] Configure Azure Update Manager for OS and SAP kernel patch cadence.
+- [ ] Deploy alerting rules (see [Hypercare Plan](./deliverables/hypercare-plan-template/) for alert catalogue).
+- [ ] Validate all infrastructure against Low-Level Design.
+- [ ] Run SAP HANA Infrastructure Configuration Checker on live environment.
+
+### Gate: HANA + app tier provisioned; HANA System Replication sync confirmed; ACSS onboarded; Azure Backup first backup successful
+
+### Outputs
+
+- Infrastructure as Code repository (Terraform + Ansible)
+- HANA System Replication status report
+- Azure Center for SAP solutions dashboard screenshot
+- Azure Backup first-backup success report
+- Infrastructure validation against Low-Level Design
+
+---
+
+## Phase 5 – Migration / Functional Build
+
+**Duration:** Weeks 14–22 (varies significantly by migration strategy)  
+**Owner:** SAP Architect (Basis), Functional Leads
+
+### Migration strategies
+
+| Strategy | Typical use | Duration indication |
+| :--- | :--- | :--- |
+| **Classical migration** (homogeneous system copy) | ECC to Azure lift-and-shift | 3–5 weeks |
+| **Database Migration Option (DMO)** | ECC + SAP HANA migration combined | 4–6 weeks |
+| **Blue-Green (Basis migration)** | Minimal downtime, complex landscapes | 5–8 weeks |
+| **SAP RISE landing zone** | Partner owns Azure side only; SAP migrates SAP layer | 2–4 weeks (partner scope) |
+
+### Common activities
+
+- [ ] Execute database export/import or system copy per agreed strategy.
+- [ ] SAP application server configuration and testing.
+- [ ] Integration testing (interfaces, middleware, BTP connections).
+- [ ] Performance testing — HANA, application server sizing validation.
+- [ ] Security testing — Fiori Single Sign-On, network segmentation, Defender for Cloud scan.
+- [ ] Disaster recovery drill — failover to secondary; verify RTO/RPO.
+- [ ] Cutover rehearsal run 1 — full cutover simulation with timing.
+- [ ] Cutover rehearsal run 2 — incorporate lessons learned from run 1.
+- [ ] User acceptance testing (business sign-off per functional module).
+- [ ] Knowledge Transfer sessions (run in parallel — see [Knowledge Transfer Training Guide](./knowledge-transfer-training-guide/)).
+
+### Gate: User acceptance testing passed; DR drill signed off; two successful cutover rehearsals; Knowledge Transfer sessions started
+
+### Outputs
+
+- Performance test results
+- Disaster recovery drill report
+- Cutover rehearsal timing logs
+- User acceptance testing sign-off
+- Knowledge Transfer schedule
+
+---
+
+## Phase 6 – Cutover and Go-Live
+
+**Duration:** Week 22–23 (typically a long weekend)  
+**Owner:** SAP Architect (Basis), Azure Architect, Project Manager
+
+### Pre-cutover checklist (D-2 weeks)
+
+- [ ] Cutover plan document finalised and distributed to all teams.
+- [ ] War room opened (Teams channel + video bridge for duration).
+- [ ] Escalation chain agreed and all contacts confirmed available.
+- [ ] Hypercare staffing confirmed for week 1 (24×7 coverage).
+- [ ] Azure Monitor for SAP alerts validated and on-call notified.
+- [ ] Azure Backup pre-cutover backup completed and verified.
+- [ ] Go/No-Go criteria agreed in writing with customer project sponsor.
+
+### Cutover execution
+
+<Steps>
+
+1. **Lock production system** — user logon disabled; final transports released.
+
+2. **Final backup** — Azure Backup for SAP HANA full backup; export log.
+
+3. **Stop SAP systems** — graceful shutdown from top of stack to HANA.
+
+4. **Final data sync** — if using a parallel-run approach, initiate final delta.
+
+5. **Switch-over** — redirect network routes, DNS, or SAP logon groups as planned.
+
+6. **Start SAP on Azure** — start HANA, then application servers, then ASCS/ERS.
+
+7. **Smoke tests** — agreed list of critical business transactions, executed by customer key users.
+
+8. **Go/No-Go gate** — project sponsor and IT lead confirm go-live on the record (email, Teams message in the war room).
+
+9. **Open user access** — user logon enabled; announce go-live.
+
+</Steps>
+
+### Rollback criteria
+
+Define before cutover. Trigger rollback if:
+- Smoke tests fail after 2-hour stabilisation attempt, or
+- Data integrity issues identified, or
+- Customer project sponsor invokes rollback.
+
+### Outputs
+
+- Cutover log (timestamped)
+- Go/No-Go decision record
+- Post-cutover smoke test results
+
+---
+
+## Phase 7 – Hypercare
+
+**Duration:** Weeks 23–28 (minimum 2 weeks; up to 6 weeks for critical systems)  
+**Owner:** SAP Architect (Basis), Azure Architect, Operations Lead
+
+See the full [Hypercare Plan template](./deliverables/hypercare-plan-template/) for the complete alert catalogue, action guides, and exit criteria.
+
+### Staffing model
+
+| Period | Coverage | SAP resource | Azure resource |
+| :--- | :--- | :--- | :--- |
+| Week 1–2 (critical) | 24×7 on-call | SAP Basis architect | Azure architect |
+| Week 3–4 | Business hours + on-call | Senior SAP Basis | Azure engineer |
+| Week 5–6 | Business hours | SAP Basis consultant | Azure engineer |
+| After exit | Customer-operated, partner available SLA | — | — |
+
+### Weekly activities
+
+- [ ] EarlyWatch Alert review — check HANA and NetWeaver alerts.
+- [ ] Azure Monitor for SAP dashboard review — weekly metrics baseline.
+- [ ] Azure Backup for SAP HANA backup job audit (check all backups succeeded).
+- [ ] Knowledge Transfer session (see schedule).
+- [ ] Weekly status report to customer project sponsor.
+- [ ] Risk register review — update open items.
+
+### Hypercare exit criteria
+
+All of the following must be met before exiting hypercare:
+
+- [ ] Four consecutive clean EarlyWatch Alert reports (no Priority 1 or Priority 2 items).
+- [ ] Zero open Priority 1 defects.
+- [ ] Disaster recovery drill executed and signed off post-go-live.
+- [ ] All Knowledge Transfer modules completed and signed off by customer attendees.
+- [ ] Azure Monitor for SAP alert thresholds tuned to production baseline.
+- [ ] Customer on-call team has operated independently for at least 1 week.
+- [ ] Customer project sponsor signs the Definition of Done.
+
+### Outputs
+
+- Weekly hypercare status reports
+- EarlyWatch Alert reports (minimum 4)
+- Disaster recovery drill report (post-go-live)
+- Knowledge Transfer completion sign-off matrix
+- [Definition of Done](./definition-of-done/) signed
+
+---
+
+## Phase 8 – Audit Evidence Collection
+
+**Duration:** Ongoing from Week 1; package finalised after hypercare exit  
+**Owner:** Engagement Lead, Compliance Lead
+
+### Continuous activities (from Day 1)
+
+- [ ] Name a single point of contact for the audit; communicate to Microsoft and the audit firm.
+- [ ] Set up evidence folder structure: `Evidence/Module A/A1.1/` … `Evidence/Module B/B4.1/`
+- [ ] Use the [Evidence Tracker](../evidence-tracker/) to track status per control.
+- [ ] File evidence in real time — do not wait until hypercare exit.
+
+### Evidence package finalisation
+
+- [ ] Run internal pre-audit review (tabletop with SAP lead, Azure lead, engagement lead, compliance lead).
+- [ ] Verify all control evidence is present, named, and current.
+- [ ] Attach completed Azure Well-Architected Review reports (initial + final).
+- [ ] Attach anonymised case study for each of the 3 required customers.
+- [ ] Confirm PAL/DPOR/CSP attribution is visible in Partner Center for all 3 customers.
+- [ ] Pull Partner Center ACR export; annotate SAP-eligible services; reconcile with Partner Development Manager.
+- [ ] Confirm AZ-120 holder transcript is current in Partner Center.
+- [ ] Submit evidence package to the designated audit firm.
+
+### Evidence package checklist
+
+| Module | Control | Required items | Status |
+| :--- | :--- | :--- | :--- |
+| A | 1.1 | Certificate of incorporation, org chart, key personnel list | ⬜ |
+| A | 1.2 | Financial statements, professional indemnity insurance | ⬜ |
+| A | 2.1 | Delivery methodology, sample project artefacts | ⬜ |
+| A | 2.2 | Quality management system, customer satisfaction data | ⬜ |
+| A | 3.1 | Customer satisfaction scores, testimonials | ⬜ |
+| A | 3.2 | Complaint handling procedure | ⬜ |
+| A | 3.3 | Security and privacy policy | ⬜ |
+| B | 1.1 | Case studies (×2), architecture diagrams, capability statement | ⬜ |
+| B | 2.1 | Partner Center ACR export (≥ USD 7,500 over 3 months) | ⬜ |
+| B | 2.2 | Unique customer list (≥ 3), PAL/DPOR/CSP proof | ⬜ |
+| B | 3.1 | AZ-120 transcript or learning path certificate | ⬜ |
+| B | 4.1 | Evidence index, Well-Architected Review reports, pre-audit review | ⬜ |
+| B | 4.2 | Migration playbook, deliverable templates, evidence of application | ⬜ |
+
+---
+
+## Resources and tools
+
+| Resource | Purpose | URL |
+| :--- | :--- | :--- |
+| SAP deployment automation framework | Infrastructure as Code for SAP on Azure | [GitHub](https://github.com/Azure/sap-automation) |
+| Azure Center for SAP solutions | Managed operations control plane | [Docs](https://learn.microsoft.com/en-us/azure/sap/center-sap-solutions/overview) |
+| Azure Architecture Center — SAP | Reference architectures | [Docs](https://learn.microsoft.com/en-us/azure/architecture/reference-architectures/sap/) |
+| Azure Well-Architected Review | Mandatory design assessment | [Assessment](https://learn.microsoft.com/en-us/assessments/azure-architecture-review/) |
+| Evidence Tracker | Audit evidence status | [Internal](../evidence-tracker/) |
+| AZ-120 certification | Skilling credential | [Docs](https://learn.microsoft.com/en-us/credentials/certifications/azure-for-sap-workloads-specialty/) |
+| SAP on Azure scripts and utilities | Operational scripts | [GitHub](https://github.com/Azure/SAP-on-Azure-Scripts-and-Utilities) |
+
+---
+
+## Reuse and contribute back
+
+<Aside type="tip">
+  This project plan is a starting point. After each engagement, capture lessons learned and propose
+  updates via a pull request. Common sources of improvement: timing adjustments for specific
+  migration strategies, new activities for new Azure services (for example, ACSS new features),
+  and updated exit criteria based on customer feedback.
+</Aside>

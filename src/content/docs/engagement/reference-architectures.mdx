@@ -10,7 +10,7 @@ import { Aside } from '@astrojs/starlight/components';
 
 ## When to use this
 
-After discovery. Pick the architecture closest to the target shape; deviate intentionally and document the deviation in the HLD.
+After discovery. Pick the architecture closest to the target shape; deviate intentionally and document the deviation in the High-Level Design.
 
 ## Curated set
 
@@ -60,10 +60,39 @@ After discovery. Pick the architecture closest to the target shape; deviate inte
 - [Azure Monitor for SAP solutions](https://learn.microsoft.com/en-us/azure/sap/monitor/about-azure-monitor-sap-solutions)
 
 <Aside type="tip">
-  Always start the LLD from the **SAP on Azure deployment automation framework**. It encodes
-  Microsoft + SAP joint best practice for naming, networking, OS prep, and HANA install — your
-  bespoke work goes on top.
+  Always start the Low-Level Design from the **SAP on Azure deployment automation framework**. It
+  encodes Microsoft + SAP joint best practice for naming, networking, OS prep, and HANA install —
+  your bespoke work goes on top.
 </Aside>
+
+---
+
+## Resources
+
+Detailed guidance from the Azure Architecture Center and Microsoft Learn for each reference pattern.
+
+| Resource | Link |
+| :--- | :--- |
+| Run SAP S/4HANA in Linux virtual machines | [learn.microsoft.com — S/4HANA HA](https://learn.microsoft.com/en-us/azure/architecture/reference-architectures/sap/sap-s4hana) |
+| Run SAP HANA for Linux VMs (scale-up) | [learn.microsoft.com — HANA scale-up](https://learn.microsoft.com/en-us/azure/architecture/reference-architectures/sap/run-sap-hana-for-linux-virtual-machines) |
+| Run SAP BW/4HANA with Linux VMs | [learn.microsoft.com — BW/4HANA](https://learn.microsoft.com/en-us/azure/architecture/reference-architectures/sap/run-sap-bw4hana-with-linux-virtual-machines) |
+| SAP NetWeaver on Azure (Windows) | [learn.microsoft.com — NetWeaver](https://learn.microsoft.com/en-us/azure/architecture/reference-architectures/sap/sap-netweaver) |
+| Multi-region SAP with Azure NetApp Files | [learn.microsoft.com — multi-region](https://learn.microsoft.com/en-us/azure/architecture/example-scenario/sap/multi-region-hana) |
+| SAP deployment automation framework — overview | [learn.microsoft.com — automation](https://learn.microsoft.com/en-us/azure/sap/automation/get-started) |
+| RISE with SAP on Azure — partner guidance | [learn.microsoft.com — RISE](https://learn.microsoft.com/en-us/azure/sap/workloads/rise-integration) |
+
+---
+
+## Samples
+
+| Sample | Description | Link |
+| :--- | :--- | :--- |
+| SAP on Azure deployment automation framework | Production-grade Terraform + Ansible for the full SAP landscape | [github.com/Azure/sap-automation](https://github.com/Azure/sap-automation) |
+| SAP on Azure scripts and utilities | PowerShell and Bash scripts for HANA backup, ASR, HSR monitoring | [github.com/Azure/SAP-on-Azure-Scripts-and-Utilities](https://github.com/Azure/SAP-on-Azure-Scripts-and-Utilities) |
+| Azure Quickstart — SAP HANA | ARM template for a single-node HANA VM with ANF | [github.com/Azure/azure-quickstart-templates — HANA](https://github.com/Azure/azure-quickstart-templates/tree/master/application-workloads/sap) |
+| Azure Monitor for SAP alerts | Pre-built alert rules for Azure Monitor for SAP solutions | [github.com/Azure/Azure-Monitor-for-SAP-solutions-preview](https://github.com/Azure/Azure-Monitor-for-SAP-solutions-preview) |
+
+---
 
 ## Reuse &amp; contribute back
 

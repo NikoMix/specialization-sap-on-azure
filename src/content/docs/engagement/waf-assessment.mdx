@@ -17,7 +17,7 @@ import { Aside } from '@astrojs/starlight/components';
 
 ## When to use this
 
-After discovery, before locking the HLD. The WAF assessment surfaces design risks early when the customer can still change direction.
+After discovery, before locking the High-Level Design. The WAF assessment surfaces design risks early when the customer can still change direction.
 
 ## Pillar weighting for SAP on Azure
 
@@ -87,7 +87,19 @@ The workfile has one tab per pillar with columns:
 
 ## Output: WAF assessment report
 
-A summary slide deck (1 slide per pillar + a heatmap) plus the populated Excel workbook attached to the HLD.
+A summary slide deck (1 slide per pillar + a heatmap) plus the populated Excel workbook attached to the High-Level Design document.
+
+## Microsoft Assessment tools
+
+Run the Azure Well-Architected Review alongside this workbook — it provides a scored baseline and
+Microsoft-curated recommendations that complement the SAP-specific questions above.
+
+<Aside type="tip">
+  The **Azure Well-Architected Review** at
+  [learn.microsoft.com/assessments/azure-architecture-review](https://learn.microsoft.com/en-us/assessments/azure-architecture-review/)
+  is a mandatory step in the engagement — the output report is required as audit evidence for
+  control B.4.1. See the [Assessments](../assessments/) page for step-by-step instructions.
+</Aside>
 
 ## Reuse &amp; contribute back
 

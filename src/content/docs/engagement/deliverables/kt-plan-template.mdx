@@ -1,39 +1,152 @@
 ---
-title: "KT Plan Template"
-description: Knowledge transfer plan template for SAP on Azure engagements.
+title: "Knowledge Transfer Plan"
+description: Knowledge Transfer plan template for SAP on Azure engagements — module breakdown, delivery schedule, and sign-off matrix.
 sidebar:
-  label: "KT Plan Template"
+  label: "Knowledge Transfer Plan"
   order: 4
 ---
 
 import { Aside } from '@astrojs/starlight/components';
 
 <Aside type="tip" title="Download the workfile">
-  Word version of the KT plan with module breakdown and sign-off matrix.
+  Word version of the Knowledge Transfer plan with module breakdown and sign-off matrix.
 
   [📄 Download kt-plan-template.docx](/templates/deliverables/kt-plan-template.docx)
 </Aside>
 
 ## When to use this
 
-Build phase. KT runs in parallel with build / cutover prep and concludes before hypercare exit.
+Build phase. Knowledge Transfer runs in parallel with build / cutover preparation and concludes
+before hypercare exit. The plan should be drafted no later than 4 weeks before go-live so
+sessions can be scheduled and attendance confirmed.
 
-## Sections (mirrors the Word template)
+<Aside type="tip">
+  For a fully detailed, role-based training curriculum with Microsoft Learn module links and a
+  13-week delivery schedule, see the
+  [Knowledge Transfer Training Guide](/engagement/knowledge-transfer-training-guide/). Use that
+  page to drive the training delivery; use this template for the formal sign-off artefact.
+</Aside>
 
-1. **KT objective** — operational independence for the customer's run team.
-2. **Audience** — customer Basis, infra, monitoring, on-call.
-3. **KT modules**
-   - **SAP-side:** kernel patching, HSR ops, ASCS/ERS cluster, transport ops.
-   - **Azure-side:** landing zone, networking, identity, ACSS, Azure Monitor for SAP, Azure Backup for SAP HANA, Update Manager.
-   - **Joint:** runbook walkthrough, DR drill walkthrough, monitoring &amp; alerting walkthrough, on-call rota.
-4. **Schedule** — module → date → trainer → attendees.
-5. **Materials** — slides, recordings, hands-on labs.
-6. **Sign-off matrix** — per module, attendee confirms understanding.
-7. **Residual risks** — anything the customer is taking on with limited proficiency; mitigation plan.
+---
+
+## Knowledge Transfer objectives
+
+1. The customer's run team can operate the SAP landscape on Azure **independently** within the
+   agreed hypercare exit date.
+2. The customer's on-call engineers can respond to the Priority 1 and Priority 2 alerts defined
+   in the [Hypercare Plan](./hypercare-plan-template/).
+3. The customer's Basis team can execute routine operations (patching, backup verification,
+   cluster maintenance) without partner assistance.
+
+---
+
+## Audience
+
+| Role | Training focus |
+| :--- | :--- |
+| SAP Basis administrator | HANA operations, HSR management, ASCS/ERS cluster, transport system |
+| Azure infrastructure engineer | Landing zone operations, networking, identity, cost management |
+| Operations / monitoring engineer | Azure Monitor for SAP, alert response, Azure Backup, Update Manager |
+| SAP functional lead | Business process verification, interface monitoring, Fiori administration |
+| IT manager / project sponsor | Runbook overview, escalation chain, hypercare exit criteria |
+
+---
+
+## Knowledge Transfer modules
+
+### SAP-side modules
+
+| Module | Topics | Target role | Duration |
+| :--- | :--- | :--- | :--- |
+| KT-S1: HANA daily operations | Start/stop, backup verification, log backup monitoring, space management | SAP Basis | 2 h |
+| KT-S2: HANA System Replication | HSR state check, monitoring replication lag, re-register secondary, planned/unplanned takeover | SAP Basis | 3 h |
+| KT-S3: ASCS/ERS cluster | Pacemaker status, resource move, STONITH, planned maintenance, failover test | SAP Basis | 2 h |
+| KT-S4: SAP kernel & support package patching | Patching steps, transport import, rollback procedure | SAP Basis | 2 h |
+| KT-S5: Transport system | Transport routes, buffer management, import queue monitoring | SAP Basis | 1 h |
+
+### Azure-side modules
+
+| Module | Topics | Target role | Duration |
+| :--- | :--- | :--- | :--- |
+| KT-A1: Azure landing zone | Hub-spoke topology, subscription structure, resource groups, tagging, cost management | Azure infra | 2 h |
+| KT-A2: Networking | ExpressRoute health, NSG review, private DNS, load balancer diagnostics | Azure infra | 2 h |
+| KT-A3: Identity | Entra ID groups, PIM activation, Fiori SSO configuration, break-glass accounts | Azure infra | 1 h |
+| KT-A4: Azure Center for SAP solutions | Landscape view, health check, SAP system management from ACSS | Azure infra + Basis | 1 h |
+| KT-A5: Azure Monitor for SAP | Alert rules, action groups, dashboard navigation, alert response steps | Operations | 2 h |
+| KT-A6: Azure Backup for SAP HANA | Backup policy review, restore procedure, backup report, job failure triage | Operations | 2 h |
+| KT-A7: Azure Update Manager | OS patch policy, SAP kernel update coordination, compliance dashboard | Operations | 1 h |
+
+### Joint modules
+
+| Module | Topics | Audience | Duration |
+| :--- | :--- | :--- | :--- |
+| KT-J1: Runbook walkthrough | End-to-end runbook review — start/stop, DR failover, on-call procedures | All technical | 2 h |
+| KT-J2: Disaster recovery drill | Simulated regional failover — verify RTO/RPO, document gaps, sign off | Basis + Azure | 3 h |
+| KT-J3: On-call simulation | Tabletop exercise: P1 HANA down, P1 replication broken, P2 ANF capacity | All on-call | 2 h |
+| KT-J4: Monitoring and alerting | Live walkthrough of Azure Monitor dashboards, EarlyWatch Alert review, escalation chain | All | 1 h |
+
+---
+
+## Delivery schedule
+
+Sessions should be booked at least 2 weeks in advance with attendance mandatory for the
+named roles. Record all sessions and make recordings available in the shared project folder.
+
+| Week | Module(s) | Trainer | Attendees | Venue |
+| :--- | :--- | :--- | :--- | :--- |
+| Week -4 (pre-cutover) | KT-A1, KT-A2, KT-A3 | Azure architect | Azure infra team | Video call + recorded |
+| Week -3 | KT-S1, KT-S2 | SAP Basis architect | Basis team | Video call + recorded |
+| Week -3 | KT-A4, KT-A5 | Azure architect | Basis + Ops | Video call + recorded |
+| Week -2 | KT-S3, KT-S4, KT-S5 | SAP Basis architect | Basis team | Video call + recorded |
+| Week -2 | KT-A6, KT-A7 | Azure architect | Operations | Video call + recorded |
+| Week -1 | KT-J1 (runbook walkthrough) | Both architects | All technical | On-site or video |
+| Cutover week | KT-J2 (DR drill) | Both architects | Basis + Azure | On-site |
+| Hypercare week 1 | KT-J3 (on-call simulation) | Both architects | All on-call | Video call |
+| Hypercare week 2 | KT-J4 (monitoring walkthrough) | Both architects | All on-call | Video call |
+
+---
+
+## Sign-off matrix
+
+Each attendee signs below to confirm they attended and understood the module. Collect signed copies
+and attach to the hypercare exit package.
+
+| Module | Attendee name | Role | Date attended | Signature |
+| :--- | :--- | :--- | :--- | :--- |
+| KT-S1 | | | | |
+| KT-S2 | | | | |
+| KT-S3 | | | | |
+| KT-S4 | | | | |
+| KT-S5 | | | | |
+| KT-A1 | | | | |
+| KT-A2 | | | | |
+| KT-A3 | | | | |
+| KT-A4 | | | | |
+| KT-A5 | | | | |
+| KT-A6 | | | | |
+| KT-A7 | | | | |
+| KT-J1 | | | | |
+| KT-J2 | | | | |
+| KT-J3 | | | | |
+| KT-J4 | | | | |
+
+---
+
+## Residual risks
+
+Document any module where the customer's run team has completed training but is not yet fully
+proficient. Agree a mitigation plan before signing the hypercare exit.
+
+| Module | Risk | Mitigation | Owner | Target date |
+| :--- | :--- | :--- | :--- | :--- |
+| | | | | |
+
+---
 
 ## Reuse &amp; contribute back
 
 <Aside type="tip">
-  Add new KT modules when you add new services (e.g. ACSS new feature, Azure Monitor for SAP new
-  provider) so customers stay current.
+  Add new Knowledge Transfer modules when you add new services (e.g. Azure Center for SAP solutions
+  new feature, Azure Monitor for SAP new provider) so customers stay current. Update the
+  [Knowledge Transfer Training Guide](/engagement/knowledge-transfer-training-guide/) in parallel.
 </Aside>

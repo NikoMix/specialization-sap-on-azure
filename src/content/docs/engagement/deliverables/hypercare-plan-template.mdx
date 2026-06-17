@@ -1,41 +1,341 @@
 ---
-title: "Hypercare Plan Template"
-description: Hypercare plan template for SAP on Azure engagements — staffing, SLAs, exit criteria.
+title: "Hypercare Plan"
+description: Hypercare plan for SAP on Azure engagements — staffing, alert catalogue, action guides, escalation procedures, and exit criteria.
 sidebar:
-  label: "Hypercare Plan Template"
+  label: "Hypercare Plan"
   order: 5
 ---
 
-import { Aside } from '@astrojs/starlight/components';
+import { Aside, Steps } from '@astrojs/starlight/components';
 
 <Aside type="tip" title="Download the workfile">
-  Word version of the hypercare plan covering cutover-week staffing, defect triage SLAs,
-  performance baselining, and exit criteria.
+  Word version of the hypercare plan covering staffing, alert catalogue, action guides, and exit
+  criteria.
 
   [📄 Download hypercare-plan-template.docx](/templates/deliverables/hypercare-plan-template.docx)
 </Aside>
 
 ## When to use this
 
-Cutover week through hypercare exit (typically 2–6 weeks post-go-live, depending on system criticality).
+From cutover week through hypercare exit — typically 2–6 weeks post-go-live depending on system
+criticality. For production S/4HANA systems the minimum is 4 weeks.
 
-## Sections (mirrors the Word template)
+---
 
-1. **Cutover-week staffing** — 24×7 coverage, named individuals, escalation chain, comms cadence.
-2. **Defect triage** — severity matrix, SLAs (P1 acknowledge / resolve), war-room cadence.
-3. **Performance baselining** — capture EWA + Azure Monitor for SAP metrics weekly; trend against pre-go-live baseline.
-4. **Operations transition** — runbook walk-throughs with customer on-call, joint shadowing.
-5. **Exit criteria**
-   - X consecutive clean EarlyWatch Alerts (customer-defined, typically 4 weeks).
-   - Zero open P1 defects.
-   - DR drill executed and signed off.
-   - KT signed off across all modules.
-   - Customer's run team operating independently for at least 1 week.
-6. **Sign-off** — see [Definition of Done](../definition-of-done/).
+## Staffing and escalation
 
-## Reuse &amp; contribute back
+### Staffing model
+
+| Period | Coverage | SAP resource | Azure resource | Transition |
+| :--- | :--- | :--- | :--- | :--- |
+| Week 1–2 (critical) | 24×7 on-call | SAP Basis architect | Azure architect | Partner-led |
+| Week 3–4 | Business hours + on-call | Senior SAP Basis | Azure engineer | Joint |
+| Week 5–6 | Business hours | SAP Basis consultant | Azure engineer | Customer-led (shadowed) |
+| After exit | Per agreed support SLA | — | — | Customer-operated |
+
+### Escalation chain
+
+| Level | Trigger | Contact | Response time |
+| :--- | :--- | :--- | :--- |
+| Level 1 — On-call | Any Priority 1 alert | On-call Basis + Azure engineer | Acknowledge within 15 min |
+| Level 2 — Architects | P1 not resolved within 2 h | SAP Basis architect + Azure architect | Engage within 30 min of escalation |
+| Level 3 — Practice lead | P1 not resolved within 6 h | Partner practice lead | Escalate to Microsoft FastTrack if needed |
+| Level 4 — Microsoft | Infrastructure issue confirmed | FastTrack for Azure / SAP on Azure team | Via support ticket P1 severity |
+
+### Communication cadence
+
+| Touchpoint | Frequency | Audience | Owner |
+| :--- | :--- | :--- | :--- |
+| Status call | Daily (Week 1–2), then weekly | Customer IT lead, project sponsor | Project manager |
+| P1 war-room | On demand | All technical leads | Engagement lead |
+| Weekly status report | Weekly | Customer project sponsor | Project manager |
+| EarlyWatch Alert review | Weekly | Basis + Azure team | SAP Basis architect |
+
+---
+
+## Alert catalogue
+
+The following alerts must be configured in Azure Monitor for SAP solutions and Azure Monitor
+before hypercare starts. All alerts should route to the on-call action group.
+
+### Priority 1 — Immediate response (15-minute acknowledge SLA)
+
+| Alert name | Source | Threshold | Meaning |
+| :--- | :--- | :--- | :--- |
+| HANA database service down | Azure Monitor for SAP — HANA provider | Service unavailable | HANA indexserver not responding |
+| HANA System Replication broken | Azure Monitor for SAP — HANA provider | Replication mode = ERROR | Replication link failed; secondary is stale |
+| ASCS/ERS failover detected | Azure Monitor for SAP — NetWeaver provider | Instance role change | Cluster failover occurred; verify new owner healthy |
+| VM unresponsive | Azure Monitor — VM heartbeat | No heartbeat 5 min | HANA or application VM is down |
+| ExpressRoute circuit down | Azure Monitor — ExpressRoute | BgpAvailability < 100% | On-premises connectivity lost |
+| Azure Backup job failure — HANA | Azure Backup — job history | Job status = Failed | Log or full backup failed; recovery point gap |
+
+### Priority 2 — Respond within 2 hours
+
+| Alert name | Source | Threshold | Meaning |
+| :--- | :--- | :--- | :--- |
+| HANA memory usage high | Azure Monitor for SAP — HANA provider | Used memory > 90% | Risk of OOM; column table growth or memory leak |
+| Azure NetApp Files volume capacity > 80% | Azure Monitor — ANF metrics | Volume capacity > 80% | Capacity planning action needed |
+| HANA log backup lag | Azure Monitor for SAP — HANA provider | Last log backup > 30 min ago | Log backup chain at risk |
+| Pacemaker cluster degraded | HANA cluster — custom alert | Node fenced or STONITH operation | One cluster node removed; running on single node |
+| Application server dialog response time > 5 s | Azure Monitor for SAP — NetWeaver provider | Avg dialog response > 5 000 ms | Application performance degradation |
+| HANA System Replication replication lag > 30 min | Azure Monitor for SAP | SR_SHIP_DELAY > 1 800 s | Secondary falling behind; risk to RPO |
+
+### Priority 3 — Respond next business day
+
+| Alert name | Source | Threshold | Meaning |
+| :--- | :--- | :--- | :--- |
+| OS disk space > 80% | Azure Monitor — disk metrics | UsedPercent > 80% | Clean up or expand |
+| SAP work process utilisation > 80% | Azure Monitor for SAP — NetWeaver | WP utilisation > 80% | May need work process tuning or application server scale-out |
+| HANA delta merge backlog | Azure Monitor for SAP | Delta merge count > 10 | Column store optimisation needed |
+| Azure Update Manager — patch compliance < 90% | Azure Update Manager | Non-compliant > 10% | Patching cadence issue |
+| Defender for Cloud — new high-severity recommendation | Microsoft Defender for Cloud | Severity = High | Security configuration drift |
+
+---
+
+## Action guides
+
+### Action guide 1 — HANA System Replication broken
+
+**Alert:** HANA System Replication broken (Priority 1)
+
+<Steps>
+
+1. **Assess the situation** — log in to the HANA primary node and check replication status:
+   ```bash
+   # Run as <SID>adm
+   hdbnsutil -sr_state
+   ```
+   Note the `mode` and `operation mode` of both primary and secondary.
+
+2. **Check network connectivity** — verify the secondary node is reachable:
+   ```bash
+   ping <secondary_IP>
+   ssh <SID>adm@<secondary_host>
+   ```
+
+3. **Check the secondary HANA service** — SSH to the secondary and verify HANA is running:
+   ```bash
+   HDB info
+   # or
+   sapcontrol -nr <instance_number> -function GetSystemInstanceList
+   ```
+
+4. **Review HANA traces** — look for the root cause in the system replication trace:
+   ```bash
+   cat /usr/sap/<SID>/HDB<NR>/trace/hdbindexserver_<hostname>.*.trc | grep -i "system replication" | tail -50
+   ```
+
+5. **Re-register the secondary (if secondary is intact)** — stop HANA on secondary, re-register:
+   ```bash
+   # On secondary node, as <SID>adm
+   HDB stop
+   hdbnsutil -sr_register --name=<secondary_site> --remoteHost=<primary_host> --remoteInstance=<NR> --replicationMode=sync --operationMode=logreplay
+   HDB start
+   ```
+
+6. **Verify replication is active** — after HANA start on secondary:
+   ```bash
+   hdbnsutil -sr_state
+   # Expect: mode=sync, secondary active
+   ```
+
+7. **Notify and document** — update the war-room channel with root cause, action taken, and resolution time. Create a defect record if caused by an infrastructure issue.
+
+</Steps>
+
+---
+
+### Action guide 2 — HANA database service down
+
+**Alert:** HANA database service down (Priority 1)
+
+<Steps>
+
+1. **Check HANA service status** on the affected node:
+   ```bash
+   # As <SID>adm
+   sapcontrol -nr <NR> -function GetSystemInstanceList
+   HDB info
+   ```
+
+2. **Check if Pacemaker has already triggered failover** — if HANA System Replication is configured and the cluster is managing HANA, check cluster status:
+   ```bash
+   crm_mon -1
+   ```
+   If `rsc_SAPHana_<SID>_HDB<NR>` has moved to the secondary, the cluster has already promoted the secondary. Verify the promoted node is serving connections.
+
+3. **If no cluster failover** — attempt a HANA start manually:
+   ```bash
+   HDB start
+   ```
+   Check the HANA trace for startup errors.
+
+4. **If HANA will not start** — check for:
+   - OS-level issues (disk full, out-of-memory, kernel crash): `dmesg | tail -30`
+   - Azure NetApp Files mount issues: `mount | grep hana`
+   - Azure VM issues: check Azure portal VM health; review Azure Monitor VM metrics
+
+5. **Engage escalation chain** — if HANA cannot be started within 30 minutes, escalate to Level 2.
+
+6. **Post-resolution** — once HANA is running, verify:
+   - HANA System Replication is re-synchronising (if failover occurred, re-register original primary as secondary)
+   - Application servers have reconnected to HANA
+   - Azure Backup log backup chain is intact
+
+</Steps>
+
+---
+
+### Action guide 3 — ASCS/ERS cluster failover
+
+**Alert:** ASCS/ERS failover detected (Priority 1)
+
+<Steps>
+
+1. **Identify the active ASCS node** — check cluster resource placement:
+   ```bash
+   crm_mon -1
+   # Or
+   pcs status
+   ```
+   Note which node is now running `rsc_sap_<SID>_ASCS<NR>` and `rsc_sap_<SID>_ERS<NR>`.
+
+2. **Verify the floating IP has moved** — confirm the Azure Load Balancer frontend IP is responding on the new ASCS node:
+   ```bash
+   ping <ASCS_virtual_hostname>
+   ```
+
+3. **Check the message server and enqueue server** — log in to SAP and run transaction SM51 to verify application servers have reconnected to the new ASCS.
+
+4. **Identify root cause of the failover** — check Pacemaker logs:
+   ```bash
+   journalctl -u pacemaker --since "1 hour ago" | grep -E "Fencing|STONITH|demote|promote"
+   ```
+   Also check Azure portal for the affected VM — look for unexpected restarts or platform events.
+
+5. **Clean up cluster state** — if the fenced node is back online but not yet rejoined:
+   ```bash
+   crm node online <fenced_node>
+   crm resource cleanup rsc_sap_<SID>_ASCS<NR>
+   ```
+
+6. **Notify** — update the war-room channel with the root cause (VM restart, network blip, OS issue) and resolution time.
+
+</Steps>
+
+---
+
+### Action guide 4 — Azure NetApp Files volume capacity > 80%
+
+**Alert:** ANF volume capacity above 80% (Priority 2)
+
+<Steps>
+
+1. **Identify which volume is full** — check Azure Monitor or the ANF blade in the Azure portal for all HANA volumes (`/hana/data`, `/hana/log`, `/hana/shared`, `/hana/backup`).
+
+2. **Check actual usage on the OS** — log in to the HANA node and check:
+   ```bash
+   df -h | grep hana
+   ```
+
+3. **For `/hana/backup`** — check for old HANA backup files that can be pruned after the retention policy is met. Do not delete files that are within the recovery window.
+
+4. **For `/hana/data`** — do **not** delete files; instead increase the ANF volume size. In the Azure portal:
+   - Navigate to the ANF volume → **Resize**
+   - Increase capacity pool or volume as needed
+   - Change takes effect immediately with no service interruption.
+
+5. **For `/hana/log`** — same as `/hana/data`. Log volume should not be resized without checking HANA log mode (normal vs overwrite). Contact the SAP Basis architect.
+
+6. **Update alert threshold** — after resolution, review whether the alert threshold should be adjusted.
+
+</Steps>
+
+---
+
+### Action guide 5 — Azure Backup for SAP HANA job failure
+
+**Alert:** Azure Backup job failure — HANA (Priority 1)
+
+<Steps>
+
+1. **Identify the failed job** — in the Azure portal, navigate to the Recovery Services vault → **Backup Jobs** and filter to the last 24 hours. Note the failure reason.
+
+2. **Common failure reasons and fixes:**
+   - `UserErrorHanaLSSPluginNotRunning` — the HANA backup plugin (`hdbbackint`) is not running; restart via `HDB stop` / `HDB start`.
+   - `BackupOperationFailed` with network error — check the private endpoint or network connectivity from the HANA VM to the Recovery Services vault.
+   - `UserErrorHanaInsufficientSpace` — the HANA backup catalog directory is full; free space in `/hana/backup`.
+
+3. **Trigger a manual backup** to verify the fix:
+   - Azure portal → Recovery Services vault → **Backup** → select the HANA item → **Backup Now**.
+
+4. **Verify the backup chain** — confirm a full or differential backup exists within the RPO window (typically 24 hours for full, 15 minutes for logs).
+
+5. **Notify and document** — if the failure left a gap in the log backup chain exceeding the committed RPO, notify the customer's IT lead and project sponsor immediately.
+
+</Steps>
+
+---
+
+## Performance baselining
+
+Capture the following metrics weekly during hypercare and compare against the pre-go-live baseline
+established during the performance test phase.
+
+| Metric | Tool | Baseline target | Alert threshold |
+| :--- | :--- | :--- | :--- |
+| HANA memory utilisation | Azure Monitor for SAP — HANA | < 85% | > 90% |
+| HANA CPU utilisation | Azure Monitor for SAP — HANA | < 70% peak | > 85% sustained |
+| Average dialog response time | Azure Monitor for SAP — NetWeaver | < 1 000 ms | > 5 000 ms |
+| ANF `/hana/data` throughput | Azure Monitor — ANF | Per sizing calc | > 90% of provisioned limit |
+| ExpressRoute utilisation | Azure Monitor — ExpressRoute | < 70% | > 85% |
+| HANA log backup interval | Azure Monitor for SAP — HANA | ≤ 15 min | > 30 min |
+| Backup job success rate | Azure Backup — vault | 100% | Any failure |
+
+---
+
+## Defect triage
+
+| Priority | Description | Examples | Acknowledge | Resolve |
+| :--- | :--- | :--- | :--- | :--- |
+| **P1** | Production system down or at risk | HANA down, replication broken, backup chain gap | 15 min | 4 h |
+| **P2** | Degraded performance or high risk | Memory > 90%, response time > 5 s, ANF > 80% | 2 h | 8 h |
+| **P3** | Non-urgent quality issue | Patch gap, low-severity recommendation | Next business day | 5 business days |
+
+All defects are tracked in the shared defect log (Excel or Azure DevOps work items). The
+project manager sends a defect summary in every weekly status report.
+
+---
+
+## Hypercare exit criteria
+
+All of the following must be confirmed before signing the Definition of Done:
+
+- [ ] Four consecutive clean EarlyWatch Alert reports — no Priority 1 or Priority 2 findings.
+- [ ] Zero open Priority 1 defects.
+- [ ] Disaster recovery drill executed post-go-live and sign-off obtained.
+- [ ] All Knowledge Transfer modules completed and signed by customer attendees.
+- [ ] Azure Monitor for SAP alert thresholds tuned to production baseline.
+- [ ] All Priority 3 defects either resolved or accepted as known issues by the customer.
+- [ ] Customer on-call team has operated independently for at least 1 week.
+- [ ] Azure Backup — at least 4 consecutive weeks of successful daily and log backups.
+- [ ] Customer project sponsor signs the [Definition of Done](../definition-of-done/).
+
+---
+
+## Resources
+
+| Resource | URL |
+| :--- | :--- |
+| Azure Monitor for SAP solutions | [learn.microsoft.com/azure/sap/monitor](https://learn.microsoft.com/en-us/azure/sap/monitor/about-azure-monitor-sap-solutions) |
+| Azure Center for SAP solutions | [learn.microsoft.com/azure/sap/center-sap-solutions](https://learn.microsoft.com/en-us/azure/sap/center-sap-solutions/overview) |
+| Azure Backup for SAP HANA | [learn.microsoft.com/azure/backup — HANA](https://learn.microsoft.com/en-us/azure/backup/sap-hana-database-about) |
+| HANA System Replication — admin guide | [help.sap.com](https://help.sap.com/docs/SAP_HANA_PLATFORM/4e9b18c116aa42fc84130b1f099b74df/676844172199461699d81a16f1ed7c24.html) |
+| Pacemaker cluster on Azure (RHEL) | [learn.microsoft.com — Pacemaker RHEL](https://learn.microsoft.com/en-us/azure/sap/workloads/high-availability-guide-rhel-pacemaker) |
+| SAP on Azure scripts and utilities | [github.com/Azure/SAP-on-Azure-Scripts-and-Utilities](https://github.com/Azure/SAP-on-Azure-Scripts-and-Utilities) |
 
 <Aside type="tip">
-  Hypercare patterns differ by customer criticality (24×7 banking vs business-hours manufacturing).
-  Add variants to the template so the next engagement can fork the closest match.
+  Hypercare patterns differ by customer criticality (24×7 banking versus business-hours
+  manufacturing). Adjust the staffing model and Priority 1 acknowledge/resolve SLAs to match the
+  customer's business requirements before go-live, not after.
 </Aside>
