@@ -41,7 +41,7 @@ Be precise, be kind, anonymise customer data. Public partners' names are fine wh
 
 ## Quality bar
 
-- MDX must build cleanly (`npm run build` with zero warnings).
-- Follow `.github/memories/mdx-content.md` — especially the `&lt;` escaping rules and dot-free filenames.
-- Update the **Evidence Tracker** workfile (`public/templates/audit/evidence-tracker.xlsx`) when you add or remove an audit control.
+- Markdown must build cleanly (`hugo --minify --gc --panicOnWarning` with zero warnings).
+- Follow `.github/memories/hugo-content.md` — especially the shortcode indentation rule that keeps tables rendering.
+- Update the **Evidence Tracker** workfile (`static/templates/audit/evidence-tracker.xlsx`) when you add or remove an audit control.
 - If you change control evidence checkboxes, also update `.github/scripts/create-issues.sh` so the GitHub Issues stay in sync.

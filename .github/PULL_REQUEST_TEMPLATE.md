@@ -25,10 +25,10 @@
 
 ## Validation
 
-- [ ] `npm run build` succeeds locally with zero warnings
+- [ ] `hugo --minify --gc --panicOnWarning` succeeds locally with zero warnings
 - [ ] Updated `.github/scripts/create-issues.sh` if any control evidence checkboxes changed
-- [ ] Updated `public/templates/audit/evidence-tracker.xlsx` if controls were added/removed
-- [ ] Followed `.github/memories/mdx-content.md` (escaping rules, dot-free filenames)
+- [ ] Updated `static/templates/audit/evidence-tracker.xlsx` if controls were added/removed
+- [ ] Followed `.github/memories/hugo-content.md` (shortcode indentation, table rules, dot-free filenames)
 
 ## Lesson learned (optional)
 

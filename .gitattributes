@@ -1,0 +1,21 @@
+# Shell scripts must keep LF endings. A CRLF checkout makes bash fail with
+# "bad interpreter: /usr/bin/env bash^M" on the Linux Actions runners.
+*.sh text eol=lf
+
+# Hugo/site sources are text; let git normalise them in the repository.
+*.md   text
+*.toml text
+*.yml  text
+*.yaml text
+*.html text
+*.css  text
+*.js   text
+
+# Binary workfiles must never be line-ending converted.
+*.docx binary
+*.xlsx binary
+*.pptx binary
+*.pdf  binary
+*.png  binary
+*.jpg  binary
+*.svg  text

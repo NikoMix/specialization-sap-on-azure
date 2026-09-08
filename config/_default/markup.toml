@@ -1,0 +1,50 @@
+# -----------------------------------------------------------------------------
+# Markup.
+#
+# TABLES: `[goldmark.extensions] table = true` is what turns GFM pipe tables
+# into real <table> markup. The theme then renders each one through
+# `layouts/_markup/render-table.html`, which wraps it in a scrollable,
+# keyboard-focusable region and styles it via `components/_table.scss`.
+#
+# `noClasses = false` is required by the theme: it maps Chroma's token classes
+# onto its own `--colorCode*` custom properties so syntax colours follow the
+# light and dark themes.
+#
+# See https://gohugo.io/configuration/markup/
+# -----------------------------------------------------------------------------
+
+[goldmark]
+  [goldmark.parser]
+    wrapStandAloneImageWithinParagraph = false
+    [goldmark.parser.attribute]
+      block = true
+      title = true
+
+  [goldmark.renderer]
+    unsafe = true
+    hardWraps = false
+
+  [goldmark.extensions]
+    strikethrough = true
+    linkify = true
+    table = true
+    taskList = true
+    typographer = true
+    [goldmark.extensions.extras]
+      [goldmark.extensions.extras.subscript]
+        enable = true
+      [goldmark.extensions.extras.superscript]
+        enable = true
+
+[highlight]
+  noClasses = false
+  lineNumbersInTable = true
+  lineNos = false
+  tabWidth = 2
+  guessSyntax = true
+  codeFences = true
+
+[tableOfContents]
+  startLevel = 2
+  endLevel = 3
+  ordered = false

@@ -1,0 +1,98 @@
+# Header navigation. The left-hand documentation sidebar is built automatically
+# from the section tree under `content/docs/` ordered by front-matter `weight`,
+# so it does not need to be repeated here.
+
+[[main]]
+  name = "Audit Guide"
+  pageRef = "/docs"
+  weight = 10
+
+[[main]]
+  name = "Requirements"
+  pageRef = "/docs/requirements"
+  weight = 20
+
+[[main]]
+  name = "Controls"
+  weight = 30
+
+  [[main]]
+    parent = "Controls"
+    name = "Module A – General"
+    pageRef = "/docs/module-a"
+    weight = 10
+
+  [[main]]
+    parent = "Controls"
+    name = "Module B – SAP on Azure"
+    pageRef = "/docs/module-b"
+    weight = 20
+
+  [[main]]
+    parent = "Controls"
+    name = "Evidence Tracker"
+    pageRef = "/docs/evidence-tracker"
+    weight = 30
+
+[[main]]
+  name = "Engagement Playbook"
+  pageRef = "/docs/engagement"
+  weight = 40
+
+[[main]]
+  name = "FAQ"
+  pageRef = "/docs/faq"
+  weight = 50
+
+# --- Footer link columns ------------------------------------------------------
+[[footer]]
+  name = "Audit"
+  weight = 10
+
+  [[footer]]
+    parent = "Audit"
+    name = "Pre-Qualification Requirements"
+    pageRef = "/docs/requirements"
+
+  [[footer]]
+    parent = "Audit"
+    name = "Audit Process"
+    pageRef = "/docs/audit-process"
+
+  [[footer]]
+    parent = "Audit"
+    name = "Evidence Tracker"
+    pageRef = "/docs/evidence-tracker"
+
+[[footer]]
+  name = "Controls"
+  weight = 20
+
+  [[footer]]
+    parent = "Controls"
+    name = "Module A – General"
+    pageRef = "/docs/module-a"
+
+  [[footer]]
+    parent = "Controls"
+    name = "Module B – SAP on Azure"
+    pageRef = "/docs/module-b"
+
+[[footer]]
+  name = "Delivery"
+  weight = 30
+
+  [[footer]]
+    parent = "Delivery"
+    name = "Engagement Playbook"
+    pageRef = "/docs/engagement"
+
+  [[footer]]
+    parent = "Delivery"
+    name = "Reference Architectures"
+    pageRef = "/docs/engagement/reference-architectures"
+
+  [[footer]]
+    parent = "Delivery"
+    name = "Innersource"
+    pageRef = "/docs/innersource"

@@ -1,0 +1,77 @@
+---
+title: "B.4.1 – Audit Readiness"
+description: "Evidence requirements for control B.4.1 — structured evidence package and pre-audit review."
+linkTitle: "4.1 Audit Readiness"
+weight: 50
+---
+## What the Auditor Checks
+
+The auditor verifies that you have **organised your evidence properly** — folder structure, naming, an evidence index, and a pre-audit internal review. This control is about being ready, not about delivering technical work.
+
+**Typical questions:**
+
+- Show me your evidence folder structure.
+- Where's the evidence index?
+- Who is the single point of contact for the audit?
+- Did you conduct an internal pre-audit review?
+
+---
+
+## Required Evidence Checklist
+
+- [ ] **Evidence index spreadsheet** with one row per control — Excel
+- [ ] **Internal pre-audit review** completed and signed off — PDF / Word
+- [ ] **Single point of contact** appointed for auditor communication — name + email captured
+- [ ] **Folder structure** following `Module A / Module B / control ref /` — screenshot / PDF
+
+{{% alert type="tip" %}}
+Use the downloadable evidence-tracker workbook from the [Evidence Tracker](/docs/evidence-tracker)
+page as your starting evidence index — it already has one row per control.
+{{% /alert %}}
+
+---
+
+## Evidence Guidance
+
+### Evidence Index
+
+Columns: Control ID, Title, Module, Customer (cust1 / 2 / 3), Status, Evidence Link, Reviewer, Review Date, Notes. The downloadable workbook ships with this exact schema and data-validation dropdowns.
+
+### Internal Pre-Audit Review
+
+Run a tabletop walkthrough with your engagement lead + SAP lead + Azure lead + compliance lead. For each control, confirm the evidence is present, current, and named per the standard. Capture decisions in a short Word document signed by the engagement lead.
+
+### Folder Structure
+
+```
+Evidence/
+├── Module A/
+│   ├── A1.1/
+│   ├── A1.2/
+│   └── ...
+└── Module B/
+    ├── B1.1/
+    ├── B2.1/
+    └── ...
+```
+
+File naming: `[ControlRef]_[DocumentType]_v[N].pdf` — e.g. `B2.1_ACR_Report_v2.pdf`.
+
+---
+
+## Evidence Status
+
+| Item | Owner | Status | Last Updated | Notes |
+|---|---|---|---|---|
+| Evidence index spreadsheet | | ⬜ Not started | | |
+| Pre-audit review record | | ⬜ Not started | | |
+| SPOC appointed | | ⬜ Not started | | |
+| Folder structure verified | | ⬜ Not started | | |
+
+---
+
+## Common Gaps
+
+- **No evidence index:** start from `static/templates/audit/evidence-tracker.xlsx`.
+- **File names inconsistent:** rename to the `[ControlRef]_[DocumentType]_v[N]` convention before submission.
+- **No SPOC named:** appoint one and put their contact at the top of the index.

@@ -6,6 +6,12 @@ node_modules/
 pnpm-lock.yaml
 yarn.lock
 
+# Hugo build output and caches
+public/
+resources/_gen/
+.hugo_build.lock
+hugo_stats.json
+
 # Build output
 dist/
 .astro/

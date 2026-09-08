@@ -1,0 +1,67 @@
+# -----------------------------------------------------------------------------
+# Site parameters. Every value here overrides a theme default; anything omitted
+# falls back to the theme's own `hugo.toml`.
+# -----------------------------------------------------------------------------
+
+brand = "Microsoft Partner"
+product = "SAP on Azure Specialization"
+showBrandLogo = true
+description = "Partner enablement guide and engagement playbook for the SAP on Microsoft Azure Advanced Specialization audit."
+tagline = "Audit controls, evidence guidance, and a repeatable SAP-on-Azure engagement playbook"
+keywords = ["SAP on Azure", "Advanced Specialization", "Microsoft partner", "audit", "S/4HANA", "AZ-120"]
+colorScheme = "auto"
+showThemeToggle = true
+dateFormat = ":date_long"
+
+[header]
+  sticky = true
+  showSearch = true
+  showLanguageSwitcher = false
+
+[breadcrumbs]
+  enable = true
+  showCurrent = true
+
+[page]
+  showDate = false
+  showLastmod = false
+  showReadingTime = true
+  showWordCount = false
+  showAuthor = false
+  showTaxonomies = false
+  showPrevNext = true
+  showToc = true
+  tocStartLevel = 2
+  tocEndLevel = 3
+  showShare = false
+  showFeedback = false
+  showEditLink = true
+  editUrl = "https://github.com/NikoMix/specialization-sap-on-azure/edit/main/"
+  relatedCount = 0
+
+[list]
+  showSummary = true
+  showThumbnail = false
+
+[search]
+  enable = true
+  maxResults = 12
+
+[footer]
+  showPoweredBy = false
+  showThemeToggle = true
+  copyright = "Content is provided for partner enablement purposes. Refer to your Microsoft Partner Agreement for usage terms. Microsoft, Azure, and SAP product names are trademarks of their respective owners."
+
+[seo]
+  openGraph = true
+  twitterCards = false
+  schema = true
+
+[build]
+  # auto | dartsass | libsass. "auto" prefers Dart Sass and falls back to the
+  # LibSass transpiler bundled with the Hugo extended edition.
+  transpiler = "auto"
+  sourceMap = false
+
+[banner]
+  enable = false

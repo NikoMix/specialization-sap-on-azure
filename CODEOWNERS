@@ -7,25 +7,25 @@
 *                                       @org/sap-on-azure-practice-lead
 
 # Audit content
-/src/content/docs/module-a/             @org/audit-compliance-leads
-/src/content/docs/module-b/             @org/sap-basis-architects @org/azure-infra-architects
-/src/content/docs/requirements.mdx      @org/audit-compliance-leads
-/src/content/docs/audit-process.mdx     @org/audit-compliance-leads
-/src/content/docs/evidence-tracker.mdx  @org/audit-compliance-leads
+/content/docs/module-a/             @org/audit-compliance-leads
+/content/docs/module-b/             @org/sap-basis-architects @org/azure-infra-architects
+/content/docs/requirements.md      @org/audit-compliance-leads
+/content/docs/audit-process.md     @org/audit-compliance-leads
+/content/docs/evidence-tracker.md  @org/audit-compliance-leads
 
 # Engagement playbook
-/src/content/docs/engagement/                       @org/sap-on-azure-practice-lead
-/src/content/docs/engagement/reference-architectures.mdx  @org/sap-reference-architects
-/src/content/docs/engagement/deliverables/          @org/sap-delivery-leads
-/src/content/docs/engagement/waf-assessment.mdx     @org/sap-reference-architects
+/content/docs/engagement/                       @org/sap-on-azure-practice-lead
+/content/docs/engagement/reference-architectures.md  @org/sap-reference-architects
+/content/docs/engagement/deliverables/          @org/sap-delivery-leads
+/content/docs/engagement/waf-assessment.md     @org/sap-reference-architects
 
 # Innersource governance
-/src/content/docs/innersource/          @org/innersource-stewards
+/content/docs/innersource/          @org/innersource-stewards
 /CONTRIBUTING.md                        @org/innersource-stewards
 /CODEOWNERS                             @org/innersource-stewards
 
 # Workfile templates (Word / PowerPoint / Excel)
-/public/templates/                      @org/sap-delivery-leads
+/static/templates/                      @org/sap-delivery-leads
 
 # CI / automation
 /.github/                               @org/devops-leads
