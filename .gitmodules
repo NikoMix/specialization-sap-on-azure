@@ -1,0 +1,4 @@
+[submodule "themes/ms-hugo-theme"]
+	path = themes/ms-hugo-theme
+	url = https://github.com/NikoMix/ms-hugo-theme.git
+	branch = main

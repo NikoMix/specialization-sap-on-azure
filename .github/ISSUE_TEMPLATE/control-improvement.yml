@@ -41,4 +41,4 @@ body:
       label: Sync reminders
       options:
         - label: I will also update `.github/scripts/create-issues.sh` if a checklist item changes
-        - label: I will also update `public/templates/audit/evidence-tracker.xlsx` if controls change
+        - label: I will also update `static/templates/audit/evidence-tracker.xlsx` if controls change

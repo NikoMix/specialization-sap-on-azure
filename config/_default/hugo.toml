@@ -1,0 +1,76 @@
+# -----------------------------------------------------------------------------
+# SAP on Microsoft Azure — Advanced Specialization
+#
+# Configuration is split across `config/_default/` as Hugo recommends.
+# See https://gohugo.io/configuration/
+#
+# `baseURL` below is the default for this repository. The GitHub Pages workflow
+# overrides it at build time with the URL reported by `actions/configure-pages`,
+# so a fork or a rename publishes correctly with no edit here.
+# -----------------------------------------------------------------------------
+
+baseURL = "https://nikomix.github.io/specialization-sap-on-azure/"
+title = "SAP on Microsoft Azure – Advanced Specialization"
+
+# The theme is consumed as a remote template pinned to a tag, vendored by the
+# `themes/ms-hugo-theme` git submodule (see .gitmodules). The build workflow
+# checks it out with `submodules: recursive`.
+#
+# NOTE: a git submodule is used deliberately in preference to a Hugo Module.
+# Go's module packer strips any directory named `vendor/`, which silently drops
+# the theme's `assets/scss/vendor/_chroma.scss` and breaks the Sass build.
+# Update the pin with:
+#   git -C themes/ms-hugo-theme fetch --tags && git -C themes/ms-hugo-theme checkout <tag>
+theme = "ms-hugo-theme"
+
+locale = "en-gb"
+defaultContentLanguage = "en"
+defaultContentLanguageInSubdir = false
+
+enableRobotsTXT = true
+enableGitInfo = false
+
+# The theme's link render hook warns on links that resolve to nothing. The
+# workflow builds with --panicOnWarning, so a broken internal link fails CI
+# rather than shipping a 404.
+refLinksErrorLevel = "ERROR"
+
+[pagination]
+  pagerSize = 30
+  path = "page"
+
+[outputs]
+  home = ["html", "rss"]
+  section = ["html", "rss"]
+  taxonomy = ["html"]
+  term = ["html", "rss"]
+
+[services]
+  [services.rss]
+    limit = 30
+
+[taxonomies]
+  tag = "tags"
+
+[minify]
+  disableXML = true
+  [minify.tdewolff.html]
+    keepWhitespace = false
+
+[sitemap]
+  changefreq = "weekly"
+  filename = "sitemap.xml"
+  priority = 0.5
+
+[related]
+  includeNewer = true
+  threshold = 60
+  toLower = true
+
+  [[related.indices]]
+    name = "tags"
+    weight = 100
+
+  [[related.indices]]
+    name = "date"
+    weight = 10

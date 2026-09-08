@@ -3,6 +3,8 @@ name: Build and Deploy to GitHub Pages
 on:
   push:
     branches: [main]
+  pull_request:
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -14,36 +16,119 @@ concurrency:
   group: pages
   cancel-in-progress: true
 
+env:
+  # Pinned deliberately. The theme requires the Hugo extended edition v0.146.0
+  # or newer (it uses the re-implemented template system: layouts/_partials,
+  # layouts/_shortcodes, layouts/_markup, no _default folder). Pinning also
+  # keeps --panicOnWarning meaningful: a new Hugo release cannot introduce a
+  # deprecation warning that silently fails the deploy.
+  HUGO_VERSION: 0.165.0
+  DART_SASS_VERSION: 1.83.4
+
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Set up Node
-        uses: actions/setup-node@v4
         with:
-          node-version: 24
+          # The ms-hugo-theme remote template is vendored as a git submodule
+          # pinned to a tag. See .gitmodules and config/_default/hugo.toml.
+          submodules: recursive
+          fetch-depth: 0
 
-      - name: Install dependencies
-        run: npm install --no-audit --no-fund
+      - name: Install Hugo (extended)
+        run: |
+          set -euo pipefail
+          curl -sSL -o hugo.deb \
+            "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb"
+          sudo dpkg -i hugo.deb
+          hugo version
 
-      - name: Build site
-        run: npm run build
+      - name: Install Dart Sass
+        run: |
+          set -euo pipefail
+          curl -sSL -o dart-sass.tar.gz \
+            "https://github.com/sass/dart-sass/releases/download/${DART_SASS_VERSION}/dart-sass-${DART_SASS_VERSION}-linux-x64.tar.gz"
+          tar -xf dart-sass.tar.gz
+          echo "$PWD/dart-sass" >> "$GITHUB_PATH"
+
+      - name: Verify the theme submodule is present
+        run: |
+          set -euo pipefail
+          test -f themes/ms-hugo-theme/theme.toml
+          # Go's module packer strips directories named `vendor/`, which is why
+          # this theme is consumed as a submodule rather than a Hugo Module.
+          # Fail loudly if that file ever goes missing again.
+          test -f themes/ms-hugo-theme/assets/scss/vendor/_chroma.scss
+          echo "theme pinned at $(git -C themes/ms-hugo-theme rev-parse --short HEAD)"
+
+      - name: Configure GitHub Pages
+        id: pages
+        uses: actions/configure-pages@v5
+
+      - name: Build
+        env:
+          HUGO_ENVIRONMENT: production
+        run: |
+          set -euo pipefail
+          # NOTE: --panicOnWarning is deliberately NOT used. Dart Sass emits a
+          # `mixed-decls` deprecation from the theme's own SCSS
+          # (assets/scss/layout/_shell.scss), and the theme hardcodes its
+          # silenceDeprecations list, so a site cannot suppress it. Panicking on
+          # any warning would fail every build for an upstream style nit. The
+          # two assertions below check the things that actually matter instead.
+          hugo \
+            --minify \
+            --gc \
+            --baseURL "${{ steps.pages.outputs.base_url }}/" \
+            2>&1 | tee build.log
+          if grep -qE '^ERROR' build.log; then
+            echo "::error::Hugo reported errors."
+            grep -E '^ERROR' build.log
+            exit 1
+          fi
+
+      - name: Assert no broken internal links
+        run: bash .github/scripts/check-links.sh "${{ steps.pages.outputs.base_url }}/" public
+
+      - name: Assert Markdown tables rendered as real tables
+        # Tables are a hard requirement for this site: every audit control page
+        # carries an evidence-status table. Goldmark renders them only when
+        # `[markup.goldmark.extensions] table = true` is set, and a table
+        # indented by four spaces inside a shortcode silently degrades to a
+        # code block or a literal pipe paragraph instead. Fail the build rather
+        # than publish an unreadable control page.
+        run: |
+          set -euo pipefail
+          # `grep` exits 1 when it matches nothing, which is the success case for
+          # `pipes`. Guard each pipeline so `set -e`/`pipefail` cannot abort the
+          # step on a healthy build.
+          tables=$( { grep -roh '<table' public --include='*.html' || true; } | wc -l )
+          pipes=$( { grep -roh -E '<p>[[:space:]]*\|' public --include='*.html' || true; } | wc -l )
+          echo "rendered <table> elements : $tables"
+          echo "raw pipe paragraphs       : $pipes"
+          if [ "$tables" -lt 30 ]; then
+            echo "::error::Expected at least 30 rendered tables, found $tables."
+            exit 1
+          fi
+          if [ "$pipes" -ne 0 ]; then
+            echo "::error::Found $pipes unrendered Markdown table(s) emitted as literal pipe text."
+            grep -rl -E '<p>[[:space:]]*\|' public --include='*.html' || true
+            exit 1
+          fi
+          echo "Tables OK: $tables rendered, $pipes unrendered."
 
       - name: Upload Pages artifact
+        if: github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@v3
         with:
-          path: dist
+          path: public
 
   deploy:
+    if: github.event_name != 'pull_request'
     needs: build
     runs-on: ubuntu-latest
-    env:
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

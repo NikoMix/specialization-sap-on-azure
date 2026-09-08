@@ -95,7 +95,7 @@ Map every consultant question to a page:
 1. Search for open GitHub Issues — each open issue represents a control where evidence is still needed.
 2. Check the issue title and labels: `module-a` controls should be addressed before `module-b` where possible, but **blockers** (insurance, ACR gap, lapsed designation, no AZ-120 / no learning path) always take priority.
 3. Read the open issue body for unticked checklist items.
-4. Read the corresponding documentation page in `src/content/docs/module-a/` or `src/content/docs/module-b/` to get full evidence guidance.
+4. Read the corresponding documentation page in `content/docs/module-a/` or `content/docs/module-b/` to get full evidence guidance.
 5. Tell the consultant exactly what to do next.
 
 ---
@@ -106,7 +106,7 @@ All submitted evidence must meet these standards:
 
 - **File naming**: `[ControlRef]_[DocumentType]_v[N].pdf` — e.g. `B2.1_ACR_Report_v2.pdf`.
 - **Folder structure**: `Module A / A[ref] /` and `Module B / B[ref] /`.
-- **Evidence Index**: `public/templates/audit/evidence-tracker.xlsx` mapping every control → file → version → date.
+- **Evidence Index**: `static/templates/audit/evidence-tracker.xlsx` mapping every control → file → version → date.
 - **Format**: PDF preferred; Excel/Word accepted for tracker documents.
 - **Anonymisation**: customer names replaced with "Customer A", "Customer B", etc.
 - **Version control**: every document must show a version number and review/creation date.

@@ -109,7 +109,7 @@ Evidence required for legal identity and organisational structure.
 - [ ] List of key personnel with names, titles, responsibilities
 - [ ] Registered address matching official records
 
-📖 See \`module-a/1-1-organizational-data\`."
+📖 See \`docs/module-a/1-1-organizational-data\`."
 
 create_issue \
   "A.1.2 – Financial Documentation" \
@@ -123,7 +123,7 @@ Evidence required for financial stability and professional indemnity cover.
 - [ ] Public liability insurance certificate if applicable
 - [ ] Statement of financial health signed by CFO or equivalent
 
-📖 See \`module-a/1-2-financial-documentation\`."
+📖 See \`docs/module-a/1-2-financial-documentation\`."
 
 create_issue \
   "A.2.1 – Service Delivery Methodology" \
@@ -138,7 +138,7 @@ Evidence required for repeatable delivery process.
 - [ ] Sample status report / steering pack
 - [ ] RACI for a typical engagement
 
-📖 See \`module-a/2-1-service-delivery-methodology\`."
+📖 See \`docs/module-a/2-1-service-delivery-methodology\`."
 
 create_issue \
   "A.2.2 – Quality Management" \
@@ -153,7 +153,7 @@ Evidence required for QMS, CSAT, and escalation.
 - [ ] Evidence of management review of quality data
 - [ ] ISO 9001 certificate (if held — optional)
 
-📖 See \`module-a/2-2-quality-management\`."
+📖 See \`docs/module-a/2-2-quality-management\`."
 
 create_issue \
   "A.3.1 – Customer Satisfaction" \
@@ -167,7 +167,7 @@ Evidence required for measurable customer outcomes.
 - [ ] Methodology for collecting and reviewing CSAT
 - [ ] Trend over at least 12 months
 
-📖 See \`module-a/3-1-customer-satisfaction\`."
+📖 See \`docs/module-a/3-1-customer-satisfaction\`."
 
 create_issue \
   "A.3.2 – Complaint Handling" \
@@ -181,7 +181,7 @@ Evidence required for a working complaint-handling process.
 - [ ] At least one resolved complaint with root cause analysis (anonymised)
 - [ ] Evidence of corrective actions taken
 
-📖 See \`module-a/3-2-complaint-handling\`."
+📖 See \`docs/module-a/3-2-complaint-handling\`."
 
 create_issue \
   "A.3.3 – Security & Privacy" \
@@ -196,7 +196,7 @@ Evidence required for InfoSec and data protection posture.
 - [ ] Staff security training records (most recent 12 months)
 - [ ] ISO 27001 certificate / SOC 2 report (if held)
 
-📖 See \`module-a/3-3-security-privacy\`."
+📖 See \`docs/module-a/3-3-security-privacy\`."
 
 # ─── Module B – SAP on Azure Specific ─────────────────────────────────────────
 
@@ -213,7 +213,59 @@ Evidence required for proven SAP-on-Azure delivery.
 - [ ] Sample anonymised deliverables — HLD, LLD, runbook, KT plan
 - [ ] Mapping of SAP service + Azure service per customer
 
-📖 See \`module-b/1-1-sap-on-azure-implementation\`."
+### SAP-on-Azure technology surface to evidence
+
+Every item below is named in the audit checklist. Tick each one you can show in a delivered
+customer solution; anything left unticked is a gap to close before the audit.
+
+- [ ] Compute — SAP-certified M-series / Mv2-series / Mv3-series VMs
+- [ ] Storage — Azure NetApp Files for \`/hana/data\`, \`/hana/log\`, \`/hana/shared\`
+- [ ] Storage — Premium SSD v2 and/or Ultra Disk
+- [ ] Resilience — Availability Zones
+- [ ] Resilience — HANA System Replication (HSR), sync in-region
+- [ ] Resilience — ASCS / ERS Pacemaker cluster with Azure Load Balancer floating IP
+- [ ] Resilience — Azure Site Recovery for the application tier
+- [ ] Network — ExpressRoute (and Global Reach where cross-region DR is in scope)
+- [ ] Network — proximity placement group between HANA and the app tier
+- [ ] Identity — Microsoft Entra ID, SAML for Fiori SSO, PIM for Basis elevation
+- [ ] Management — Azure Center for SAP solutions (ACSS)
+- [ ] Management — Azure Monitor for SAP solutions
+- [ ] Management — Azure Backup for SAP HANA
+- [ ] Automation — SAP on Azure deployment automation framework (Terraform + Ansible)
+
+📖 See \`docs/module-b/1-1-sap-on-azure-implementation\`."
+
+create_issue \
+  "B.1.2 – Reference Architecture Alignment" \
+  "module-b,$CYCLE_LABEL" \
+  "## Module B.1.2 – Reference Architecture Alignment
+
+Show that your delivered solutions trace back to a **published Microsoft reference architecture**,
+and that any deviation was deliberate and documented. Auditors consistently rate evidence higher
+when it cites a first-party architecture rather than a bespoke diagram alone.
+
+The primary architecture to cite is
+[SAP S/4HANA in Linux on Azure](https://learn.microsoft.com/en-us/azure/architecture/guide/sap/sap-s4hana),
+which covers the widest part of the Module B technology surface (M-series compute, Azure NetApp
+Files, Premium SSD v2 / Ultra Disk, Availability Zones, HSR, ASCS/ERS clustering, ExpressRoute,
+ACSS, Azure Monitor for SAP, Azure Backup, Entra ID / Fiori SSO, Azure Site Recovery, and
+proximity placement groups).
+
+- [ ] Each customer architecture diagram names the published Microsoft architecture it derives from
+- [ ] Deviations from the reference architecture are listed with the reason, in the HLD
+- [ ] Coverage matrix completed: audit-checklist technology → where it appears in your design
+- [ ] At least one engagement started from the **SAP on Azure deployment automation framework**
+
+### Published architectures to map against
+
+- [ ] [SAP S/4HANA in Linux on Azure](https://learn.microsoft.com/en-us/azure/architecture/guide/sap/sap-s4hana)
+- [ ] [Run SAP HANA for Linux VMs in a scale-up architecture](https://learn.microsoft.com/en-us/azure/architecture/reference-architectures/sap/run-sap-hana-for-linux-virtual-machines)
+- [ ] [Run SAP BW/4HANA with Linux virtual machines](https://learn.microsoft.com/en-us/azure/architecture/reference-architectures/sap/run-sap-bw4hana-with-linux-virtual-machines)
+- [ ] [SAP whole landscape on Azure](https://learn.microsoft.com/en-us/azure/architecture/guide/sap/sap-whole-landscape)
+- [ ] [SAP on Azure landing zone accelerator](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/scenarios/sap/enterprise-scale-landing-zone) (RISE interop)
+- [ ] [Disaster recovery overview for SAP workloads](https://learn.microsoft.com/en-us/azure/sap/workloads/disaster-recovery-overview-guide)
+
+📖 See \`docs/engagement/reference-architectures\` for the full coverage matrix."
 
 create_issue \
   "B.2.1 – ACR Performance (SAP-eligible Azure services)" \
@@ -227,7 +279,7 @@ ACR must be ≥ USD 7,500 across SAP-on-Azure-eligible Azure services over the t
 - [ ] PDM-confirmed reconciliation if any subscription category is borderline
 - [ ] Trend chart showing ≥ 3 months above threshold
 
-📖 See \`module-b/2-1-acr-performance\`."
+📖 See \`docs/module-b/2-1-acr-performance\`."
 
 create_issue \
   "B.2.2 – Customer Diversity (≥ 3 SAP customers via DPOR/PAL/CSP)" \
@@ -238,7 +290,7 @@ create_issue \
 - [ ] PAL / DPOR / CSP association evidence per customer
 - [ ] Customer list cross-referenced against the case studies for B.1.1
 
-📖 See \`module-b/2-2-customer-diversity\`."
+📖 See \`docs/module-b/2-2-customer-diversity\`."
 
 create_issue \
   "B.3.1 – Skilling (AZ-120 or Run-SAP-on-MS-Cloud learning path)" \
@@ -252,7 +304,7 @@ At least one individual holds AZ-120 **OR** has completed the Run-SAP-on-Microso
 - [ ] Skilling mapping table (Name → AZ-120 or learning path → completion date)
 - [ ] All skilling validated in Partner Center if available
 
-📖 See \`module-b/3-1-skilling\`."
+📖 See \`docs/module-b/3-1-skilling\`."
 
 create_issue \
   "B.4.1 – Audit Readiness" \
@@ -264,7 +316,7 @@ create_issue \
 - [ ] Single point-of-contact appointed for auditor communication
 - [ ] Folder structure follows \`Module A / Module B / control ref /\`
 
-📖 See \`module-b/4-1-audit-readiness\`."
+📖 See \`docs/module-b/4-1-audit-readiness\`."
 
 create_issue \
   "B.4.2 – Partner Onboarding Assets (SAP playbook + deliverables)" \
@@ -281,6 +333,6 @@ Demonstrate a repeatable SAP-on-Azure customer onboarding pack.
 - [ ] Hypercare plan template
 - [ ] Evidence the pack has been applied to ≥ 1 customer
 
-📖 See \`module-b/4-2-partner-onboarding\`."
+📖 See \`docs/module-b/4-2-partner-onboarding\`."
 
 echo "✅ All issues created for cycle ${CYCLE_LABEL}."
